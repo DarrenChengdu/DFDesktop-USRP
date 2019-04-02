@@ -48,6 +48,18 @@ typedef struct DataFrame {
     float phase_differences[CHANNELS_COUNT][FFT_LENGTH];
 } *pDataFrame;
 
+typedef struct bbIQPacket {
+    float *iqData;
+    int iqCount;
+    int *triggers;
+    int triggerCount;
+    int purge;
+    int dataRemaining;
+    int sampleLoss;
+    int sec;
+    int nano;
+} bbIQPacket;
+
 #define SPSC_BUFFER_LENGTH 1024
 extern spsc_queue< DataFrame, capacity<SPSC_BUFFER_LENGTH> > data_frames_raw;
 
