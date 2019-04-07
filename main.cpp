@@ -71,7 +71,6 @@ int main(int argc, char *argv[])
     Q_INIT_RESOURCE(application);
     QApplication a(argc, argv);
 
-int dsa = 3;
     QTranslator trans;
     trans.load("desktop_cn");
     a.installTranslator(&trans);
