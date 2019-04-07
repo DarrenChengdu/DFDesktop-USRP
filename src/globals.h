@@ -17,7 +17,10 @@ using namespace std;
 #define MY_CRITICAL qCritical().noquote()
 #define MY_FATAL    qFatal().noquote()
 
-#define CHANNELS_COUNT 5
+#define PI 3.1415926
+#define FACTOR_RAD_DEGREE 180.0/PI
+#define FACTOR_DEGREE_RAD 1.0/FACTOR_RAD_DEGREE
+#define NUM_ANTENNAS 5
 #define FFT_LENGTH 8192
 
 #include "armadillo/armadillo"
@@ -44,23 +47,44 @@ typedef struct DataFrame {
     Hz center;
     Hz bw;
     float gain;
-    float amplitudes[CHANNELS_COUNT][FFT_LENGTH];
-    float phase_differences[CHANNELS_COUNT][FFT_LENGTH];
+    float amplitudes[NUM_ANTENNAS][FFT_LENGTH];
+    float phase_differences[NUM_ANTENNAS][FFT_LENGTH];
 } *pDataFrame;
 
-typedef struct bbIQPacket {
-    float *iqData;
-    int iqCount;
-    int *triggers;
-    int triggerCount;
-    int purge;
-    int dataRemaining;
-    int sampleLoss;
+typedef struct FFTPacket {
+    fmat amplitudes;
+    fmat phases;
+    int npts;
+    int channelCount;
+    Hz center;
+    Hz rbw;  // bw = rbw * npts
+    float gain;
     int sec;
     int nano;
-} bbIQPacket;
+
+    FFTPacket () {
+        channelCount = NUM_ANTENNAS;
+        npts = FFT_LENGTH;
+        amplitudes.zeros(npts,channelCount);
+        phases.zeros(npts,channelCount);
+    }
+} FFTPacket;
+
+typedef struct IQPacket {
+    cx_fmat iqData;
+    int iqCount;
+    int channelCount;
+    Hz center;
+    float rate;  // rbw = rate / iqCount
+    float gain;
+    int sec;
+    int nano;
+    int antennaNum;
+} IQPacket;
 
 #define SPSC_BUFFER_LENGTH 1024
+extern spsc_queue<IQPacket, capacity<SPSC_BUFFER_LENGTH>> IQ_Pool;
+extern spsc_queue<FFTPacket, capacity<SPSC_BUFFER_LENGTH>> FFT_Pool;
 extern spsc_queue< DataFrame, capacity<SPSC_BUFFER_LENGTH> > data_frames_raw;
 
 extern spsc_queue< mat, capacity<SPSC_BUFFER_LENGTH> > phases_q;

@@ -24,7 +24,7 @@ Session::Session(QObject *parent) : QObject(parent)
 
 //    algorithm = getInstance();
     dataSource = new DataSource;
-    tableSource = new TableSource(CHANNELS_COUNT, this);
+    tableSource = new TableSource(NUM_ANTENNAS, this);
 }
 
 Session::~Session()

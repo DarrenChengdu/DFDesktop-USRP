@@ -40,3 +40,4 @@ void main()
 (2019-03-31 06:48:45) Warning: QOpenGLShader::link: error: linking with uncompiled/unspecialized shadererror: linking with uncompiled/unspecialized shader
 (2019-03-31 08:18:38) Warning: Failed to open file  ./presets.xml
 (2019-03-31 08:20:21) Warning: Failed to open file  ./presets.xml
+(2019-04-02 22:55:46) Warning: Failed to open file  ./presets.xml

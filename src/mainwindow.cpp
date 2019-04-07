@@ -5,7 +5,7 @@
 #include "simpletable.h"
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), updatedCount(0), num_plots(CHANNELS_COUNT), num_rows(3)
+    : QMainWindow(parent), updatedCount(0), num_plots(NUM_ANTENNAS), num_rows(3)
 {
     setObjectName("MainWindow");
     setWindowTitle("DF-Desktop");    
@@ -149,7 +149,7 @@ void MainWindow::setupChartsAndTable()
 
     for (n = 0; n < num_plots; n++)
     {
-        QString title = QString(QObject::tr("Channel %1")).arg(n+1);
+        QString title = QString(QObject::tr("Antenna %1")).arg(n+1);
 
         GLChartView *plot = new GLChartView(title);
 

@@ -2,6 +2,8 @@
 #define USRP_X310_2CH_H
 
 #include "device.h"
+#include <thread>
+#include <atomic>
 
 class USRP_X310_2CH : public Device
 {
@@ -10,6 +12,8 @@ public:
     USRP_X310_2CH();
 
     virtual bool OpenDevice();
+    void StartStreaming();
+    void StopStreaming();
     virtual bool CloseDevice();
     virtual bool Abort() {return true;}
     virtual bool Preset() {return true;}
@@ -28,6 +32,16 @@ public:
     virtual bool NeedsTempCal() const {return true;}
     virtual bool StartCalibrating(int typeCAL);
     virtual bool StopCalibrating();
+
+private:
+    void FetchRaw();
+    void Sort();
+    std::atomic<bool> streaming;
+    std::thread thread_handle_fetch;
+    std::thread thread_handle_sort;
+
+    Hz bw;
+
 };
 
 #endif // USRP_X310_2CH_H

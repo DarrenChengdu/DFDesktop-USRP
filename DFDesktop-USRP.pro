@@ -56,7 +56,8 @@ SOURCES += main.cpp\
     src/signal_generator.cpp \
     src/data_collecting_dlg.cpp \
     src/field_test_dlg.cpp \
-    src/browse_dlg.cpp
+    src/browse_dlg.cpp \
+    src/usrp_x310_2ch.cpp
 
 HEADERS  += src/mainwindow.h \
     src/globals.h \
@@ -96,7 +97,8 @@ HEADERS  += src/mainwindow.h \
     src/data_collecting_dlg.h \
     src/field_test_dlg.h \
     src/browse_dlg.h \
-    include/libci.h
+    include/libci.h \
+    src/usrp_x310_2ch.h
 
 INCLUDEPATH += $$PWD/src
 

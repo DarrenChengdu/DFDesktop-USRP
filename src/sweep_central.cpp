@@ -150,7 +150,7 @@ void SweepCentral::Reconfigure()
 
     if(session_ptr->device->Reconfigure(s))
     {        
-        data_factory->Init(CHANNELS_COUNT, FFT_LENGTH, s->RBW(), s->Centers());
+        data_factory->Init(NUM_ANTENNAS, FFT_LENGTH, s->RBW(), s->Centers());
         data_factory->setDFEnabled(s->isDFEnabled());
 
         Hzvec f_list = s->FreqList();

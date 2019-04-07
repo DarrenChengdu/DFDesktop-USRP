@@ -46,13 +46,10 @@ void DataFactory::Init(int _nchannels, int _npts, Hz _rbw, Hzvec centers)
 
     atten_rf.set_size(length); atten_rf.fill(0);
 
-    // 目前, 开始校正和停止校正都会触发重配,重配会引发 DataFactory::Init 函数,
-    // 导致获取的校正数组又被填0, 因此注释对校正数组的填0操作.
     amplitudes_cal.set_size(npts*length, nchannels); //amplitudes_cal.fill(0.0);
     phases_cal.set_size(npts*length, nchannels); //phases_cal.fill(0.0);
     calCount.set_size(length); calCount.fill(0);
 
-    // 确保第一次作 abs(phases_cal - phases_cal_last) 时不会满足校正收敛判断
     phases_cal_last = randu<fmat>(npts*length, nchannels) * 100.0;
     amplitudes.set_size(npts*length, nchannels);
     phases.set_size(npts*length, nchannels);
@@ -213,4 +210,5 @@ bool DataFactory::AllDone()
 
     return false;
 }
+
 

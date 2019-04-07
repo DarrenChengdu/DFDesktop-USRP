@@ -342,8 +342,8 @@ void CollectingDlg::CollectingThread()
 
     MSleep(100); // wait for reconfiguration completed in sweep_central
 
-    mat phases_fifo(fifo_depth, CHANNELS_COUNT, fill::zeros);
-    mat amplitudes_fifo(fifo_depth, CHANNELS_COUNT, fill::zeros);
+    mat phases_fifo(fifo_depth, NUM_ANTENNAS, fill::zeros);
+    mat amplitudes_fifo(fifo_depth, NUM_ANTENNAS, fill::zeros);
 
     int current_band = 0;
     bool success = true;
@@ -400,7 +400,7 @@ void CollectingDlg::CollectingThread()
                     mat amplitudes_tmp;
                     amplitudes_q.pop(amplitudes_tmp);
 
-                    for (int j = 0; j < CHANNELS_COUNT; j++)
+                    for (int j = 0; j < NUM_ANTENNAS; j++)
                     {
                         phases_fifo(i, j) = phases_tmp(offset_l, j);
                         amplitudes_fifo(i, j) = amplitudes_tmp(offset_l, j);

@@ -7,7 +7,7 @@
 TableSource::TableSource(int channelCount, QObject *parent) : QObject(parent)
   , tableModel(0), nchannels(channelCount), corrected(0), samplesLoaded(false)
   , azimIndex(-1), freqObserv(0)
-{ 
+{
     pointIndex = 0;
 
     amplitudes = new float [nchannels];
@@ -96,17 +96,18 @@ void TableSource::setSamplingDataEnabled(bool sta) {
 }
 
 void TableSource::setSamplingData(QVector<float> dataStored)
-{
+{    
     dataMutex.lock();
     for (int n = 0; n < nchannels; n++) {
         phasesStored[n] = dataStored.at(n);
         amplitudesStored[n] = dataStored.at(n+nchannels);
     }
+
     dataMutex.unlock();
 }
 
 void TableSource::timerEvent( QTimerEvent *e )
-{
+{    
     if (e->timerId() == timerID)
     {
         dataMutex.lock();
@@ -131,6 +132,7 @@ void TableSource::timerEvent( QTimerEvent *e )
                 tableModel->setData(ind3,  QVariant(QString::number(phasesStored[n], 'f', 1)));
                 tableModel->setData(ind7, QVariant(QString::number(amplitudesStored[n], 'f', 1)));
             }
+
             else {
                 tableModel->setData(ind3,  QVariant(QString(tr("Null"))));
                 tableModel->setData(ind7,  QVariant(QString(tr("Null"))));
@@ -155,8 +157,10 @@ void TableSource::timerEvent( QTimerEvent *e )
     }
 }
 
+
+
 void TableSource::setAzimuthIndex(int ind)
-{
+{    
     if (azimIndex == ind)
         return;
 
@@ -164,14 +168,14 @@ void TableSource::setAzimuthIndex(int ind)
     emit tableChanged(freqObserv, azimIndex);
 }
 
+
+
 void TableSource::setFreqObserv(Hz f)
-{
+{    
     if (freqObserv == f)
         return;
 
     freqObserv = f;
-    // 因为线程函数 SweepCentral::SweepThread 中首先会重配一次,会调用 DFSettings 的
-    // observ 对 TableSource 进行赋值, 因此此处的 freqObserv 实际上不必初始化
     emit tableChanged(freqObserv, azimIndex);
 }
 
