@@ -176,8 +176,7 @@ void MainWindow::setupChartsAndTable()
            << ""
            << "RT"
            << "CAL"
-           << "Stored"
-           << "RF Atten.(dB)";
+           << "Stored";
     simpleModel->setHorizontalHeaderLabels(list_h);
 
     for (int row = 0; row < num_plots; ++row)
@@ -195,12 +194,11 @@ void MainWindow::setupChartsAndTable()
 
     SimpleTable *sTable = new SimpleTable(simpleModel);
 
-    for (int col = 0; col < list_h.size(); col++) {
-        sTable->setColumnWidth(col,75);
-    }
+//    for (int col = 0; col < list_h.size(); col++) {
+//        sTable->setColumnWidth(col,75);
+//    }
     sTable->setColumnWidth(0, 25);
     sTable->setColumnWidth(4, 25);
-    sTable->setColumnWidth(8, 95);
 
     connect(sTable, &SimpleTable::freqOffsetChanged,
             session->settings, &DFSettings::setFreqObervIndex);

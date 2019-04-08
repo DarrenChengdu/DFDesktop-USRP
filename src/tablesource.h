@@ -21,8 +21,7 @@ public:
     void pushData(float *_amp,
                   float *_amp_cal,
                   float *_pha,
-                  float *_pha_cal,
-                  float *_atten_rf);
+                  float *_pha_cal);
     void setModel(QStandardItemModel *model);
 
 protected:
@@ -42,7 +41,6 @@ private:
     float *phases;
     float *amplitudes_cal;
     float *phases_cal;
-    float *atten_rf;
     float *phasesStored;
     float *amplitudesStored;
 

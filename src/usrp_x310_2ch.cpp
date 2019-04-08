@@ -1,27 +1,32 @@
 #include "usrp_x310_2ch.h"
 #include "globals.h"
 
+int fft_size_from_rate_and_rbw(float _rate, float _rbw)
+{
+    float nfft = _rate / _rbw;
+    int order = (int)ceil(log2(nfft));
+    return pow(2, order);
+}
+
 USRP_X310_2CH::USRP_X310_2CH()
 {
 }
 
 bool USRP_X310_2CH::Reconfigure(DFSettings *s)
 {
+    if (s->RBW() != rbw) {
+        if (streaming) {
+            StopStreaming();
+        }
 
+        rbw = s->RBW();
+        iqCount = native_dsp_lut[(int)s->RBWIndex()].fft_size;
 
-    return true;
-}
-
-bool USRP_X310_2CH::StartCalibrating(int _type)
-{
-
-
-    return true;
-}
-
-bool USRP_X310_2CH::StopCalibrating()
-{
-
+        int order = (int)ceil(log2(iqCount));
+        fftSize = pow(2, order);
+        fftSizeBW = native_dsp_lut[(int)s->RBWIndex()].fft_size_bw;
+        StartStreaming();
+    }
 
     return true;
 }
@@ -38,6 +43,7 @@ bool USRP_X310_2CH::CloseDevice()
 
     return true;
 }
+
 void USRP_X310_2CH::StartStreaming()
 {
     streaming = true;
@@ -70,19 +76,22 @@ void USRP_X310_2CH::FetchRaw()
 void USRP_X310_2CH::Sort()
 {
     IQPacket onepacket;
-    FFTPacket fftpacket;
-    DataFrame frame;
-    uvec packet_status(fftpacket.channelCount,fill::zeros);
+    FFTPacket fftpacket(fftSize, NUM_ANTENNAS);
+    IntermediatePacket frame(fftSizeBW, NUM_ANTENNAS);
+    uvec bwRangeIdx = regspace<uvec>(fftSize/2-fftSizeBW/2,fftSize/2+fftSizeBW/2-1);
+    uvec packet_status(fftpacket.ncols,fill::zeros);
 
     while (streaming) {
         if (IQ_Pool.read_available()) {
             IQ_Pool.pop(onepacket);
 
-            // fft
-            cx_fmat Y = arma::fft(onepacket.iqData);
+            // 对IQ数据作FFT。面临两个问题：一是要利用FFT的高效率，FFT点数必须为2的幂次方；
+            // 二是采样时钟可能是任意值，要取得某一分辨率对应的采样点数未必为2的幂次方。
+            // 目前采取的方法是：优先保证效率，实际的RBW在要求的RBW最近位置
+            cx_fmat Y = arma::shift(arma::fft(onepacket.iqData, fftSize), fftSize/2);
 
             // normalize to channel 1
-            fmat A = 20.0*log10(abs(Y))/onepacket.iqCount;
+            fmat A = 20.0*log10(abs(Y))/fftSize;
             fmat rad = arma::arg(Y);
             fvec diff = (rad.col(1)-rad.col(0))*FACTOR_RAD_DEGREE;
 
@@ -128,10 +137,16 @@ void USRP_X310_2CH::Sort()
                 fvec dp24 = fftpacket.phases.col(0)-fftpacket.phases.col(2);
                 fvec dp25 = fftpacket.phases.col(0)-fftpacket.phases.col(3);
                 fvec dp21 = fftpacket.phases.col(1)-fftpacket.phases.col(4);
-                frame.phase_differences = dp21;
-                frame.phase_differences = dp21 - dp23;
-                frame.phase_differences = dp21 - dp24;
-                frame.phase_differences = dp21 - dp25;
+                fvec dp31 = dp21 - dp23;
+                fvec dp41 = dp21 - dp24;
+                fvec dp51 = dp21 - dp25;
+
+                frame.phase_differences.col(1) = dp21(bwRangeIdx);
+                frame.phase_differences.col(2) = dp31(bwRangeIdx);
+                frame.phase_differences.col(3) = dp41(bwRangeIdx);
+                frame.phase_differences.col(4) = dp51(bwRangeIdx);
+
+                preprocessed_data.push(frame);
                 packet_status.fill(0);
             }
         }

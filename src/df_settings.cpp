@@ -8,21 +8,21 @@ const Hzvec centers_ref_bw2p5M = regspace<Hzvec>(31250000, 2500000, 3010000000);
 
 DFSettings::DFSettings() : DFEnabled(false)
 {
-    instr_type = 0x0204;
     wmode = WorkMode_FFM;
     rmode = COMMON;
 
     center = 100000000;
     user_start = 30000000;
     user_stop = 3000000000;
+
+    // modify rbw and bw within it
     setRBWGrade(RBWIndex_25kHz);
 
-    atten_mode = RFAttenMode_Auto;
+    atten_mode = RFAttenMode_Manual;
     atten = 20;
     atten_cal = 0;
     fft_avg_cnt = Avg_Count_8;
     dwell_time = 2;
-    task_id = 1;
     sweeping = true;
 
     calibrating = false;
@@ -37,10 +37,7 @@ DFSettings::DFSettings() : DFEnabled(false)
 
 DFSettings& DFSettings::operator=(const DFSettings &other)
 {
-    task_id = other.task_id;
     wmode = other.wmode;
-    instr_type = other.instr_type;
-
     start = other.start;
     stop = other.stop;
     center = other.center;
@@ -75,8 +72,6 @@ DFSettings& DFSettings::operator=(const DFSettings &other)
 
 bool DFSettings::operator==(const DFSettings &other) const
 {
-    if (task_id != other.task_id) return false;
-    if (instr_type != other.instr_type) return false;
     if (wmode != other.wmode) return false;
 
     if (start != other.start) return false;
@@ -173,7 +168,7 @@ Hzvec DFSettings::Centers()
     stop = centers.max() + bw/2 - rbw;
     span = stop - start;
 
-    freqList.set_size(centers.size()*FFT_LENGTH);
+    freqList.set_size(centers.size()*native_dsp_lut[rbw_index].fft_size_bw);
 
     int count = 0;
 
@@ -181,7 +176,7 @@ Hzvec DFSettings::Centers()
     {
         Hz f_start = centers(n) - bw/2;
 
-        for (int m = 0; m < FFT_LENGTH; m++) {
+        for (int m = 0; m < freqList.size(); m++) {
             freqList(count) = f_start + rbw*m;
             count++;
         }
@@ -215,43 +210,21 @@ void DFSettings::setRBWGrade(int _rbw)
     switch (rbw_index) {
     case RBWIndex_25kHz:
         rbw = 25000;
-        bw = rbw * FFT_LENGTH;
         break;
     case RBWIndex_12p5kHz:
         rbw = 12500;
-        bw = rbw * FFT_LENGTH;
         break;
     case RBWIndex_6p25kHz:
         rbw = 6250;
-        bw = rbw * FFT_LENGTH;
         break;
     case RBWIndex_3p125kHz:
         rbw = 3125;
-        bw = rbw * FFT_LENGTH;
         break;
     default:
         break;
     }
 
-    switch (bw) {
-    case 20000000:
-        bw_index = Bandwidths_20MHz;
-        break;
-    case 10000000:
-        bw_index = Bandwidths_10MHz;
-        break;
-    case 5000000:
-        bw_index = Bandwidths_5MHz;
-        break;
-    case 2500000:
-        rbw = 3125;
-        bw_index = Bandwidths_2p5MHz;
-        break;
-    default:
-        bw_index = Bandwidths_20MHz;
-        break;
-    }
-
+    bw = native_dsp_lut[rbw_index].bw;
     updated(this);
 }
 

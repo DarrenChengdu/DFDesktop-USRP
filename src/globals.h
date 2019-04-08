@@ -21,7 +21,6 @@ using namespace std;
 #define FACTOR_RAD_DEGREE 180.0/PI
 #define FACTOR_DEGREE_RAD 1.0/FACTOR_RAD_DEGREE
 #define NUM_ANTENNAS 5
-#define FFT_LENGTH 8192
 
 #include "armadillo/armadillo"
 using namespace arma;
@@ -43,30 +42,40 @@ using namespace boost::lockfree;
 #define DEVICE_DEBUG
 #define ITU_CHAN_DEBUG
 
-typedef struct DataFrame {
+struct dsp_params_lut { unsigned int rate, bw, rbw, fft_size, fft_size_bw; };
+extern dsp_params_lut native_dsp_lut[];
+
+typedef struct IntermediatePacket {
     Hz center;
     Hz bw;
     float gain;
-    float amplitudes[NUM_ANTENNAS][FFT_LENGTH];
-    float phase_differences[NUM_ANTENNAS][FFT_LENGTH];
-} *pDataFrame;
+    int npts;
+    fmat amplitudes;
+    fmat phase_differences;
+    IntermediatePacket(int nfft, int nAnts) {
+        npts = nfft;
+        amplitudes.zeros(npts,nAnts);
+        phase_differences.zeros(npts,nAnts);
+    }
+    IntermediatePacket(){}
+} IntermediatePacket;
 
 typedef struct FFTPacket {
     fmat amplitudes;
     fmat phases;
     int npts;
-    int channelCount;
+    int ncols;
     Hz center;
     Hz rbw;  // bw = rbw * npts
     float gain;
     int sec;
     int nano;
 
-    FFTPacket () {
-        channelCount = NUM_ANTENNAS;
-        npts = FFT_LENGTH;
-        amplitudes.zeros(npts,channelCount);
-        phases.zeros(npts,channelCount);
+    FFTPacket (int  _nrows, int _ncols) {
+        ncols = _ncols;
+        npts = _nrows;
+        amplitudes.zeros(npts,ncols);
+        phases.zeros(npts,ncols);
     }
 } FFTPacket;
 
@@ -84,11 +93,10 @@ typedef struct IQPacket {
 
 #define SPSC_BUFFER_LENGTH 1024
 extern spsc_queue<IQPacket, capacity<SPSC_BUFFER_LENGTH>> IQ_Pool;
-extern spsc_queue<FFTPacket, capacity<SPSC_BUFFER_LENGTH>> FFT_Pool;
-extern spsc_queue< DataFrame, capacity<SPSC_BUFFER_LENGTH> > data_frames_raw;
+extern spsc_queue<IntermediatePacket, capacity<SPSC_BUFFER_LENGTH>> preprocessed_data;
 
-extern spsc_queue< mat, capacity<SPSC_BUFFER_LENGTH> > phases_q;
-extern spsc_queue< mat, capacity<SPSC_BUFFER_LENGTH> > amplitudes_q;
+extern spsc_queue<mat, capacity<SPSC_BUFFER_LENGTH>> phases_q;
+extern spsc_queue<mat, capacity<SPSC_BUFFER_LENGTH>> amplitudes_q;
 extern std::mutex snapshot_mtx;
 extern std::mutex raw_mtx;
 

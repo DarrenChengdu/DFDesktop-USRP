@@ -38,7 +38,7 @@ QT_CHARTS_USE_NAMESPACE
 DataSource::DataSource(int bufferLength, QObject *parent) :
     QObject(parent),
     dataLengthMax(bufferLength),
-    m_markerPos(FFT_LENGTH/2)
+    m_markerPos(0)
 {
     m_data.reserve(dataLengthMax);
 }

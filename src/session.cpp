@@ -1,11 +1,10 @@
 #include "session.h"
 #include <QFile>
-#include "globals.h"
+//#include "globals.h"
 
 Session::Session(QObject *parent) : QObject(parent)
 {
-    device = new SevenChannels();
-    //device = new DeviceSA(&prefs);
+    device = new USRP_X310_2CH();
 
     settings = new DFSettings();
 

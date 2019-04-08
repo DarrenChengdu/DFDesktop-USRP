@@ -9,7 +9,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 //        return;
 
     static QMutex mutex;
-    mutex.lock();
+    mutex.lock();      
 
     QString context_info = QString("File:(%1) Line:(%2)").arg(QString(context.file)).arg(context.line);
     QString current_date_time = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");

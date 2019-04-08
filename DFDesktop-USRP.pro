@@ -41,7 +41,6 @@ SOURCES += main.cpp\
     src/df_settings.cpp \
     src/factory.cpp \
     src/session.cpp \
-    src/seven_channels.cpp \
     src/sweep_central.cpp \
     src/newfiledialog.cpp \
     src/samples_importing_dialog.cpp \
@@ -81,7 +80,6 @@ HEADERS  += src/mainwindow.h \
     src/df_settings.h \
     src/factory.h \
     src/session.h \
-    src/seven_channels.h \
     src/sweep_central.h \
     src/newfiledialog.h \
     src/samples_importing_dialog.h \
@@ -109,3 +107,5 @@ DEPENDPATH += $$PWD/include
 RESOURCES     = application.qrc
 
 TRANSLATIONS += desktop_cn.ts
+
+unix:!macx: LIBS += -liovisa

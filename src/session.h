@@ -2,7 +2,7 @@
 #define SESSION_H
 
 #include <QObject>
-#include "seven_channels.h"
+#include "usrp_x310_2ch.h"
 #include "df_settings.h"
 #include "globals.h"
 #include "libci.h"

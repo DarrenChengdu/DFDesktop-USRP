@@ -14,7 +14,6 @@ TableSource::TableSource(int channelCount, QObject *parent) : QObject(parent)
     amplitudes_cal = new float [nchannels];
     phases = new float [nchannels];
     phases_cal = new float [nchannels];
-    atten_rf = new float [nchannels];
     phasesStored = new float [nchannels];
     amplitudesStored = new float [nchannels];
 }
@@ -27,7 +26,6 @@ TableSource::~TableSource()
     delete []amplitudes_cal;
     delete []phases;
     delete []phases_cal;
-    delete []atten_rf;
     delete []phasesStored;
     delete []amplitudesStored;
 }
@@ -60,10 +58,6 @@ void TableSource::setModel(QStandardItemModel *model)
         QStandardItem *ampStoredItem = new QStandardItem(QString::number(0.0, 'f', 1));
         ampStoredItem->setTextAlignment(Qt::AlignCenter);
         tableModel->setItem(n, 7, ampStoredItem);
-
-        QStandardItem *rfAttenItem = new QStandardItem(QString::number(0.0, 'f', 1));
-        rfAttenItem->setTextAlignment(Qt::AlignCenter);
-        tableModel->setItem(n, 8, rfAttenItem);
     }
 
     timerID = startTimer( ceil(1000/5.0) );
@@ -72,8 +66,7 @@ void TableSource::setModel(QStandardItemModel *model)
 void TableSource::pushData(float *_amp,
                            float *_amp_cal,
                            float *_pha,
-                           float *_pha_cal,
-                           float *_atten_rf)
+                           float *_pha_cal)
 {
     dataMutex.lock();
 
@@ -81,7 +74,6 @@ void TableSource::pushData(float *_amp,
     memcpy((char *)amplitudes_cal, (char *)_amp_cal, 4*nchannels);
     memcpy((char *)phases, (char *)_pha, 4*nchannels);
     memcpy((char *)phases_cal, (char *)_pha_cal, 4*nchannels);
-    memcpy((char *)atten_rf, (char *)_atten_rf, 4*nchannels);
 
     dataMutex.unlock();
 }
@@ -149,9 +141,6 @@ void TableSource::timerEvent( QTimerEvent *e )
 
             QModelIndex ind6 = tableModel->index(n,6);
             tableModel->setData(ind6, QVariant(QString::number(amplitudes_cal[n], 'f', 1)));
-
-            QModelIndex ind8 = tableModel->index(n,8);
-            tableModel->setData(ind8,  QVariant(QString::number(atten_rf[n], 'f', 1)));
         }
         dataMutex.unlock();
     }

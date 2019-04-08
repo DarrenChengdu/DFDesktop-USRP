@@ -16,7 +16,7 @@ SimpleTable::SimpleTable(QAbstractItemModel *model, QWidget *parent) : QWidget(p
     });
 
     offsetLine = new QLineEdit;
-    offsetLine->setText(QString("%1").arg(FFT_LENGTH/2));
+    offsetLine->setText(QString("%1").arg(0));
 
     connect(offsetLine, &QLineEdit::editingFinished,
             this, [=]() {

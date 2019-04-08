@@ -23,14 +23,13 @@ public:
     int Length() const {return length;}
     int Npts_Single_Band() const {return npts;}
     bool IsInitialized() const {return initialized;}
-    bool Push(const DataFrame &frame);
+    bool Push(const IntermediatePacket &frame);
     bool IsCalibrating() const {return calibrating;}
     void SwitchToCAL(bool sta);
     bool AllDone();
     Hz RBW() const {return rbw;}
     Hz BW() const {return bw;}
 
-    fvec atten_rf;
     fmat amplitudes;
     fmat amplitudes_cal;
     fmat phases_cal;

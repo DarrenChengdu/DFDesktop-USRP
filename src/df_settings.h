@@ -28,7 +28,6 @@ public:
 	bool Save(QSettings &s) const{}
 
     WorkMode Mode() const { return wmode; }
-    int InstrType() const { return instr_type; }
     Hzvec Centers();
 
 	// Freq getters
@@ -50,8 +49,6 @@ public:
     RFAttenMode AttenModeRF() const { return atten_mode; }
     FFTAvgCnt AvgCount() const {return fft_avg_cnt;}
 
-    void setTaskID(unsigned int id) { task_id = id; }
-    unsigned int TaskID() const { return task_id; }
     bool isSweeping() const { return sweeping; }
     int CurrentAntLayer() const {return current_ant_layer;}
     bool AntSwitchAuto() const {return ant_switch_auto;}
@@ -69,8 +66,6 @@ public:
 protected:
 
 private:
-    unsigned int task_id;
-    int instr_type;
     WorkMode wmode;
     ReceiverMode rmode;
 
@@ -125,7 +120,6 @@ public slots:
     void setFFTAvgCnt(int n) { fft_avg_cnt = (FFTAvgCnt)n;  updated(this);}
     void setRecvMode(int _rmode){ rmode = (ReceiverMode)_rmode;  updated(this);}
     void setWorkMode(WorkMode _mode){ wmode = _mode;  updated(this);}
-    void setInstrType(int _type) {instr_type = _type;}
     void setUserStart(Frequency _start){ user_start = _start.Val(); }
     void setUserStop(Frequency _stop){ user_stop = _stop.Val(); }
     void setCenter(Frequency _center){ center = _center.Val(); updated(this);}

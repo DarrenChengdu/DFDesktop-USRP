@@ -7,11 +7,10 @@
 // SignalGenerator.h : header file
 //
 
-//#include "visa/visa.h"
+#include <visa.h>
 #include "lib/frequency.h"
 #include <stdio.h>
 #include <stdlib.h>
-//#include <conio.h>
 #include <QObject>
 #define MAX_COUNT 200
 /////////////////////////////////////////////////////////////////////////////
@@ -21,33 +20,33 @@ class CSignalGenerator : public QObject
 {
     Q_OBJECT
 public:
-	CSignalGenerator();
-	virtual ~CSignalGenerator();
+    CSignalGenerator();
+    virtual ~CSignalGenerator();
     bool isConnected() const {return connected;}
     Frequency getFrequency() const {return freq;}
     double getAmplitude() const {return amplitude;}
     bool isRFOn() const {return RFOn;}
     bool isModOn() const {return ModOn;}
 
-	// Operations
+    // Operations
 public:
     Frequency QueryFreq();
     bool SetSignalSource(Frequency f, double PowdBm, bool _RFOn, bool _ModOn = false)
-	{
+    {
         return SetSignalGenFreq(f)
                 && SetSignalGenPow(PowdBm)
                 && SetSignalRFOn(_RFOn)
                 && SetSignalModOn(_ModOn);
-	}
+    }
 
-	bool ConnectSignalGen(char *ipStr);
+    bool ConnectSignalGen(char *ipStr);
     void DisconnectSignalGen();
 
 private:
-//	ViStatus status;// Declares a type ViStatus variable
-//	ViSession defaultRM, instr;// Declares a type ViSession variable
-//	ViUInt32 retCount;// Return count for string I/O
-//	ViChar buffer[MAX_COUNT];// Buffer for string I/O
+    ViStatus status;// Declares a type ViStatus variable
+    ViSession defaultRM, instr;// Declares a type ViSession variable
+    ViUInt32 retCount;// Return count for string I/O
+    ViChar buffer[MAX_COUNT];// Buffer for string I/O
 
     Frequency freq;
     double amplitude;

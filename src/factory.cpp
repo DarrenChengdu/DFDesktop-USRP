@@ -44,8 +44,6 @@ void DataFactory::Init(int _nchannels, int _npts, Hz _rbw, Hzvec centers)
     bw = rbw * _npts;
     length = centers.size();
 
-    atten_rf.set_size(length); atten_rf.fill(0);
-
     amplitudes_cal.set_size(npts*length, nchannels); //amplitudes_cal.fill(0.0);
     phases_cal.set_size(npts*length, nchannels); //phases_cal.fill(0.0);
     calCount.set_size(length); calCount.fill(0);
@@ -73,7 +71,7 @@ void DataFactory::setDFEnabled(bool enabled) {
     DFEnabled = enabled;
 }
 
-bool DataFactory::Push(const DataFrame &frame)
+bool DataFactory::Push(const IntermediatePacket &frame)
 {
     if (!initialized)
         return false;
@@ -85,7 +83,6 @@ bool DataFactory::Push(const DataFrame &frame)
         return false;
 
     int offset = ind * npts;
-    atten_rf(ind) = frame.gain;
 
     // time, tempratures, antenna informations and so on
 //    time_stamps(ind) = frame
@@ -107,8 +104,8 @@ bool DataFactory::Push(const DataFrame &frame)
 
                 for (int j = 0; j < nchannels; j++)
                 {
-                    amplitudes_loc(i,j) = GetAmplitude(frame.amplitudes[j][i], frame.gain);
-                    phases_loc(i,j) = frame.phase_differences[j][i];
+                    amplitudes_loc(i,j) = frame.amplitudes(i,j);
+                    phases_loc(i,j) = frame.phase_differences(i,j);
                 }
             }
         }
@@ -173,8 +170,8 @@ bool DataFactory::Push(const DataFrame &frame)
 
             for (int j = 0; j < nchannels; j++)
             {
-                amplitudes(offset+i,j) = GetAmplitude(frame.amplitudes[j][i], frame.gain);
-                phases(offset+i,j) = frame.phase_differences[j][i];
+                amplitudes(offset+i,j) = GetAmplitude(frame.amplitudes(i,j), frame.gain);
+                phases(offset+i,j) = frame.phase_differences(i,j);
 
                 phases_in(j) = df_lib::angle(phases(offset+i,j) - phases_cal(offset+i,j));
                 amplitudes_in(j) = amplitudes(offset+i,j) - amplitudes_cal(offset+i,j);

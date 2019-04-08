@@ -1,7 +1,6 @@
 #include "sweep_central.h"
 #include "df_lib.h"
 
-
 SweepCentral::SweepCentral(Session *sPtr, QObject *parent) : QObject(parent),
     session_ptr(sPtr), running(false), north_cal(0.0), reconfigure(false)
 {
@@ -29,7 +28,7 @@ void SweepCentral::StopStreaming()
 
 void SweepCentral::SweepThread()
 {
-    DataFrame frame_raw;
+    IntermediatePacket frame_raw;
     Reconfigure();
 
     while (running)
@@ -40,9 +39,9 @@ void SweepCentral::SweepThread()
         }
 
         raw_mtx.lock();
-        if (data_frames_raw.read_available() > 0)
+        if (preprocessed_data.read_available() > 0)
         {
-            data_frames_raw.pop(frame_raw);
+            preprocessed_data.pop(frame_raw);
             raw_mtx.unlock();
 
             // push data frames into data cells
@@ -56,12 +55,12 @@ void SweepCentral::SweepThread()
                     if (session_ptr->settings->isCalibratingAuto())
                     {
                         data_factory->SwitchToCAL(false);
-                        session_ptr->device->StopCalibrating();
+//                        session_ptr->device->StopCalibrating();
 
-                        MSleep(100); // 等待设备完全响应之后再彻底清空缓存 data_frames_raw
+                        MSleep(100); // 等待设备完全响应之后再彻底清空缓存 preprocessed_data
                     }
 
-                    data_frames_raw.reset();
+                    preprocessed_data.reset();
                 }
                 else
                 {
@@ -92,10 +91,7 @@ void SweepCentral::SweepThread()
                     frowvec tablePha = data_factory->phases.row(observIndex);
                     frowvec tablePhaCal = data_factory->phases_cal.row(observIndex);
 
-                    frowvec rfAtten(nchannels);
-                    rfAtten.fill(data_factory->atten_rf(observIndex/FFT_LENGTH));
-
-                    QVector<QVector<QPointF> > seriesData;
+                                 QVector<QVector<QPointF> > seriesData;
 
                     for (int k = 0; k < nchannels; k++)
                     {
@@ -112,8 +108,7 @@ void SweepCentral::SweepThread()
                     session_ptr->tableSource->pushData(tableAmp.memptr(),
                                                        tableAmpCal.memptr(),
                                                        tablePha.memptr(),
-                                                       tablePhaCal.memptr(),
-                                                       rfAtten.memptr());
+                                                       tablePhaCal.memptr());
 
                     if (data_factory->isDFEnabled()) {
                         int offset = session_ptr->settings->FreqObservIndex();
@@ -150,7 +145,7 @@ void SweepCentral::Reconfigure()
 
     if(session_ptr->device->Reconfigure(s))
     {        
-        data_factory->Init(NUM_ANTENNAS, FFT_LENGTH, s->RBW(), s->Centers());
+        data_factory->Init(NUM_ANTENNAS, native_dsp_lut[s->RBWIndex()].fft_size_bw, s->RBW(), s->Centers());
         data_factory->setDFEnabled(s->isDFEnabled());
 
         Hzvec f_list = s->FreqList();
@@ -168,7 +163,7 @@ void SweepCentral::Reconfigure()
         if (s->isCalibratingAuto())
         {
             // device switch to calibration
-            session_ptr->device->StartCalibrating(s->TypeCAL());
+//            session_ptr->device->StartCalibrating(s->TypeCAL());
 
             // data factory switch to calibration
             data_factory->SwitchToCAL(true);
@@ -178,7 +173,7 @@ void SweepCentral::Reconfigure()
             data_factory->SwitchToCAL(s->isCalibrating());
         }
 
-        data_frames_raw.reset();
+        preprocessed_data.reset();
 
         snapshot_mtx.lock();
         amplitudes_q.reset();
@@ -199,9 +194,6 @@ void SweepCentral::Reconfigure()
 void SweepCentral::PrintSettings(const DFSettings *s)
 {
     MY_INFO << tr("Details Printing...");
-
-    MY_INFO << tr("TaskID: ") << s->TaskID();
-    MY_INFO << tr("Instruction Type: ") << QString("").sprintf("0x%X", s->InstrType());
     MY_INFO << tr("Work Mode: ") << s->Mode() << tr("<0-FFM; 1-PScan>");
 
     if (s->Mode() == WorkMode_FFM) {

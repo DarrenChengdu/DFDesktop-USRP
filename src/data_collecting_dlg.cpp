@@ -373,7 +373,7 @@ void CollectingDlg::CollectingThread()
         else
         {
             raw_mtx.lock();
-            data_frames_raw.reset();
+            preprocessed_data.reset();
             raw_mtx.unlock();
 
             //            snapshot_mtx.lock();
