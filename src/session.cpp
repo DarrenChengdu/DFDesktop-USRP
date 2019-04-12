@@ -5,8 +5,10 @@
 Session::Session(QObject *parent) : QObject(parent)
 {
     device = new USRP_X310_2CH();
+    device->OpenDevice();
 
     settings = new DFSettings();
+    device->Reconfigure(settings);
 
     QString fileName = QString("./presets.xml");
 
@@ -24,6 +26,8 @@ Session::Session(QObject *parent) : QObject(parent)
 //    algorithm = getInstance();
     dataSource = new DataSource;
     tableSource = new TableSource(NUM_ANTENNAS, this);
+
+
 }
 
 Session::~Session()

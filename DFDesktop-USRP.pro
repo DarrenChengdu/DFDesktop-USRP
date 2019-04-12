@@ -108,4 +108,5 @@ RESOURCES     = application.qrc
 
 TRANSLATIONS += desktop_cn.ts
 
-unix:!macx: LIBS += -liovisa
+
+unix:!macx: LIBS += -lboost_program_options -luhd -lboost_system

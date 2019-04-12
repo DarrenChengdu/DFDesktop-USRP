@@ -11,14 +11,15 @@ DFSettings::DFSettings() : DFEnabled(false)
     wmode = WorkMode_FFM;
     rmode = COMMON;
 
-    center = 100000000;
+    center = 500000000;
     user_start = 30000000;
     user_stop = 3000000000;
 
     // modify rbw and bw within it
-    setRBWGrade(RBWIndex_25kHz);
+    setRBWGrade(RBWIndex_12p5kHz);
 
     atten_mode = RFAttenMode_Manual;
+    gain = 70;
     atten = 20;
     atten_cal = 0;
     fft_avg_cnt = Avg_Count_8;
@@ -32,7 +33,7 @@ DFSettings::DFSettings() : DFEnabled(false)
     ant_switch_auto = true;
 
     observ = center;
-    observIndex = (observ-(center-bw/2))/rbw;
+    observIndex = (observ-(center-bw/2))/rbw-8;
 }
 
 DFSettings& DFSettings::operator=(const DFSettings &other)
@@ -50,6 +51,7 @@ DFSettings& DFSettings::operator=(const DFSettings &other)
     rbw_index = other.rbw_index;
     atten_mode = other.atten_mode;
     atten = other.atten;
+    gain = other.gain;
     fft_avg_cnt = other.fft_avg_cnt;
     atten_cal = other.atten_cal;
     sweeping = other.sweeping;
@@ -87,6 +89,7 @@ bool DFSettings::operator==(const DFSettings &other) const
     if (sweeping != other.sweeping) return false;
     if (atten_mode != other.atten_mode) return false;
     if (atten != other.atten) return false;
+    if (gain != other.gain) return false;
     if (fft_avg_cnt != other.fft_avg_cnt) return false;
     if (atten_cal != other.atten_cal) return false;
     if (dwell_time != other.dwell_time) return false;

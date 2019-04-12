@@ -7,7 +7,7 @@
 // SignalGenerator.h : header file
 //
 
-#include <visa.h>
+//#include <visa.h>
 #include "lib/frequency.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,10 +43,10 @@ public:
     void DisconnectSignalGen();
 
 private:
-    ViStatus status;// Declares a type ViStatus variable
-    ViSession defaultRM, instr;// Declares a type ViSession variable
-    ViUInt32 retCount;// Return count for string I/O
-    ViChar buffer[MAX_COUNT];// Buffer for string I/O
+//    ViStatus status;// Declares a type ViStatus variable
+//    ViSession defaultRM, instr;// Declares a type ViSession variable
+//    ViUInt32 retCount;// Return count for string I/O
+//    ViChar buffer[MAX_COUNT];// Buffer for string I/O
 
     Frequency freq;
     double amplitude;

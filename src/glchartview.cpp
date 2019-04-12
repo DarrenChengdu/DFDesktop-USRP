@@ -42,7 +42,7 @@ GLChartView::GLChartView(QString title, QWidget *parent)
 
     m_chart->createDefaultAxes();
     m_chart->axisX()->setRange(90.0, 110.0);
-    m_chart->axisY()->setRange(-160.0, -20.0);
+    m_chart->axisY()->setRange(-120.0, 10.0);
     m_chart->axisY()->setTitleText(title);
 //    m_chart->axisY()->setTitleFont(QFont("Times", 10, QFont::Bold));
 

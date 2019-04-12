@@ -62,6 +62,7 @@ public:
     Hz FreqMin() {return freqList.min();}
     Hz FreqMax() {return freqList.max();}
     Hzvec FreqList() const {return freqList;}
+    unsigned int Gain() const {return gain;}
 
 protected:
 
@@ -81,6 +82,7 @@ private:
     Hz rbw;
     RBWGrade rbw_index;
     RFAttenMode atten_mode;
+    unsigned int gain;
     unsigned int atten;
     unsigned int atten_cal;
     FFTAvgCnt fft_avg_cnt;

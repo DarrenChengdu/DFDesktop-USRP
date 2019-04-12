@@ -18,7 +18,7 @@ float GetDeltaPhase(short cPha)
 const int CAL_COUNT_MAX = 100;
 
 DataFactory::DataFactory(Session *sPtr) : session_ptr(sPtr), initialized(false)
-  , DFEnabled(true)
+  , DFEnabled(true), calibrating(false)
 {
 
 }
@@ -105,7 +105,7 @@ bool DataFactory::Push(const IntermediatePacket &frame)
                 for (int j = 0; j < nchannels; j++)
                 {
                     amplitudes_loc(i,j) = frame.amplitudes(i,j);
-                    phases_loc(i,j) = frame.phase_differences(i,j);
+                    phases_loc(i,j) = frame.phases(i,j);
                 }
             }
         }
@@ -170,8 +170,8 @@ bool DataFactory::Push(const IntermediatePacket &frame)
 
             for (int j = 0; j < nchannels; j++)
             {
-                amplitudes(offset+i,j) = GetAmplitude(frame.amplitudes(i,j), frame.gain);
-                phases(offset+i,j) = frame.phase_differences(i,j);
+                amplitudes(offset+i,j) = frame.amplitudes(i,j);
+                phases(offset+i,j) = frame.phases(i,j);
 
                 phases_in(j) = df_lib::angle(phases(offset+i,j) - phases_cal(offset+i,j));
                 amplitudes_in(j) = amplitudes(offset+i,j) - amplitudes_cal(offset+i,j);

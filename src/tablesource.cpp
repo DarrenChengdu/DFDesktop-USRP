@@ -16,6 +16,13 @@ TableSource::TableSource(int channelCount, QObject *parent) : QObject(parent)
     phases_cal = new float [nchannels];
     phasesStored = new float [nchannels];
     amplitudesStored = new float [nchannels];
+
+    memset((char *)amplitudes, 0, 4*nchannels);
+    memset((char *)amplitudes_cal, 0, 4*nchannels);
+    memset((char *)phases, 0, 4*nchannels);
+    memset((char *)phases_cal, 0, 4*nchannels);
+    memset((char *)phasesStored, 0, 4*nchannels);
+    memset((char *)amplitudesStored, 0, 4*nchannels);
 }
 
 TableSource::~TableSource()

@@ -50,12 +50,14 @@ typedef struct IntermediatePacket {
     Hz bw;
     float gain;
     int npts;
+    int nants;
     fmat amplitudes;
-    fmat phase_differences;
+    fmat phases;
     IntermediatePacket(int nfft, int nAnts) {
         npts = nfft;
-        amplitudes.zeros(npts,nAnts);
-        phase_differences.zeros(npts,nAnts);
+        nants = nAnts;
+        amplitudes.zeros(npts,nants);
+        phases.zeros(npts,nants);
     }
     IntermediatePacket(){}
 } IntermediatePacket;
@@ -89,6 +91,13 @@ typedef struct IQPacket {
     int sec;
     int nano;
     int antennaNum;
+    IQPacket(int num_iqs, int num_chans) {
+        iqCount = num_iqs;
+        channelCount = num_chans;
+        iqData.zeros(iqCount, channelCount);
+    }
+
+    IQPacket(){}
 } IQPacket;
 
 #define SPSC_BUFFER_LENGTH 1024

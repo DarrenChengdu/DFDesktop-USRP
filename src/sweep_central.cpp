@@ -49,6 +49,7 @@ void SweepCentral::SweepThread()
 
             if (data_factory->AllDone())
             {
+                std::cout << "All done!" << std::endl;
                 if (data_factory->IsCalibrating())
                 {
                     // plan to stop if it was calibrating before
@@ -166,11 +167,11 @@ void SweepCentral::Reconfigure()
 //            session_ptr->device->StartCalibrating(s->TypeCAL());
 
             // data factory switch to calibration
-            data_factory->SwitchToCAL(true);
+//            data_factory->SwitchToCAL(true);
         }
         else
         {
-            data_factory->SwitchToCAL(s->isCalibrating());
+//            data_factory->SwitchToCAL(s->isCalibrating());
         }
 
         preprocessed_data.reset();

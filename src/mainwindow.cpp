@@ -54,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupMenuBar();
     setupChartsAndTable();
 
-//    DFSweep->StartStreaming();
+    DFSweep->StartStreaming();
 
     QLabel *fpsLabel = new QLabel;
     session->dataSource->startUpdates(seriesList, markerList, markerTextList, fpsLabel);
