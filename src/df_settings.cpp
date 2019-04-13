@@ -174,7 +174,7 @@ Hzvec DFSettings::Centers()
     stop = centers.max() + bw/2 - rbw;
     span = stop - start;
 
-    freqList.set_size(centers.size()*native_dsp_lut[rbw_index].fft_size);
+    freqList.set_size(centers.size()*native_dsp_lut[rbw_index].fft_size_bw);
 
     int count = 0;
 
