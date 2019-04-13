@@ -34,11 +34,10 @@ private:
     Hz rbw;
     int iqCount;
     int fftSize;
+    int fftSizeBW;
 
     uhd::usrp::multi_usrp::sptr usrp;
     uhd::rx_streamer::sptr rx_stream;
-
-    int total_num_samps;
 };
 
 #endif // USRP_X310_2CH_H

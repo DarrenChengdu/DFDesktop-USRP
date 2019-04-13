@@ -31,6 +31,7 @@ bool USRP_X310_2CH::Reconfigure(DFSettings *s)
 //        int order = (int)ceil(log2(iqCount));
 //        fftSize = pow(2, order);
         fftSize = native_dsp_lut[(int)s->RBWIndex()].fft_size;
+        fftSizeBW = native_dsp_lut[(int)s->RBWIndex()].fft_size_bw;
 
         // 设置接收机增益
         double gain = s->Gain();
@@ -48,7 +49,7 @@ bool USRP_X310_2CH::Reconfigure(DFSettings *s)
 //            tune_req.args = uhd::device_addr_t("mode_n=integer"); //to use Int-N tuning
 
             //we will tune the frontends in 100ms from now
-            uhd::time_spec_t cmd_time = usrp->get_time_now() + uhd::time_spec_t(0.1);
+            uhd::time_spec_t cmd_time = usrp->get_time_now() + uhd::time_spec_t(0.02);
             //sets command time on all devices
             //the next commands are all timed
             usrp->set_command_time(cmd_time);
@@ -69,7 +70,7 @@ bool USRP_X310_2CH::Reconfigure(DFSettings *s)
         usrp->set_rx_rate(rate, 1);
         std::cout << boost::format("Actual RX Rate: %f Msps...") % (usrp->get_rx_rate()/1e6) << std::endl << std::endl;
 
-        total_num_samps = native_dsp_lut[(int)s->RBWIndex()].fft_size;
+
 
         StartStreaming();
     }
@@ -154,6 +155,7 @@ void USRP_X310_2CH::StopStreaming()
 void USRP_X310_2CH::FetchRaw()
 {    
     uhd::set_thread_priority_safe();
+    int total_num_samps = fftSize;
 
     //meta-data will be filled in by recv()
     uhd::rx_metadata_t md;
@@ -237,8 +239,9 @@ void USRP_X310_2CH::Sort()
 
     IQPacket onepacket;
     FFTPacket fftpacket(fftSize, NUM_ANTENNAS);
-    IntermediatePacket frame(fftSize, NUM_ANTENNAS);
-    uvec packet_status(fftpacket.ncols,fill::zeros);
+    IntermediatePacket frame(fftSizeBW, NUM_ANTENNAS);
+    uvec bwRangeIndex = regspace<uvec>(fftSize/2-fftSizeBW/2, fftSize/2+fftSizeBW/2-1);
+    uvec packet_status(NUM_ANTENNAS, fill::zeros);
 
     while (streaming) {
         if (IQ_Pool.read_available()) {
@@ -301,7 +304,7 @@ void USRP_X310_2CH::Sort()
             // if it is full, further process
             if (sum(packet_status) == packet_status.size()) {
                 frame.center = onepacket.center;
-                frame.amplitudes = fftpacket.amplitudes;
+                frame.amplitudes = fftpacket.amplitudes.rows(bwRangeIndex);
 
                 // 从 fs 带宽数据中取够 bw 带宽数据
                 fvec dp23 = fftpacket.phases.col(0)-fftpacket.phases.col(1);
@@ -312,10 +315,10 @@ void USRP_X310_2CH::Sort()
                 fvec dp41 = dp21 - dp24;
                 fvec dp51 = dp21 - dp25;
 
-                frame.phases.col(1) = dp21;
-                frame.phases.col(2) = dp31;
-                frame.phases.col(3) = dp41;
-                frame.phases.col(4) = dp51;
+                frame.phases.col(1) = dp21(bwRangeIndex);
+                frame.phases.col(2) = dp31(bwRangeIndex);
+                frame.phases.col(3) = dp41(bwRangeIndex);
+                frame.phases.col(4) = dp51(bwRangeIndex);
 
                 preprocessed_data.push(frame);
 //                std::cout << "preprocessed_data coming!" << std::endl;

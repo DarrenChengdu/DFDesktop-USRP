@@ -43,7 +43,7 @@ using namespace boost::lockfree;
 #define DEVICE_DEBUG
 #define ITU_CHAN_DEBUG
 
-struct dsp_params_lut { size_t rate, rbw, fft_size; };
+struct dsp_params_lut { size_t rate, bw, rbw, fft_size, fft_size_bw; };
 extern dsp_params_lut native_dsp_lut[];
 
 typedef struct IntermediatePacket {

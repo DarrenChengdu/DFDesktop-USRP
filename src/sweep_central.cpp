@@ -146,7 +146,7 @@ void SweepCentral::Reconfigure()
 
     if(session_ptr->device->Reconfigure(s))
     {        
-        data_factory->Init(NUM_ANTENNAS, native_dsp_lut[s->RBWIndex()].fft_size, s->RBW(), s->Centers());
+        data_factory->Init(NUM_ANTENNAS, native_dsp_lut[s->RBWIndex()].fft_size_bw, s->RBW(), s->Centers());
         data_factory->setDFEnabled(s->isDFEnabled());
 
         Hzvec f_list = s->FreqList();
