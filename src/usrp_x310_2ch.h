@@ -33,7 +33,6 @@ private:
 
     Hz rbw;
     int iqCount;
-    int fftSizeBW;
     int fftSize;
 
     uhd::usrp::multi_usrp::sptr usrp;

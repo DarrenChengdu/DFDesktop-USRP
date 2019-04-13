@@ -1,5 +1,6 @@
 #include "usrp_x310_2ch.h"
 #include "globals.h"
+#include "lib/bb_lib.h"
 
 namespace po = boost::program_options;
 
@@ -27,9 +28,9 @@ bool USRP_X310_2CH::Reconfigure(DFSettings *s)
         rbw = s->RBW();
         iqCount = native_dsp_lut[(int)s->RBWIndex()].fft_size;
 
-        int order = (int)ceil(log2(iqCount));
-        fftSize = pow(2, order);
-        fftSizeBW = native_dsp_lut[(int)s->RBWIndex()].fft_size_bw;
+//        int order = (int)ceil(log2(iqCount));
+//        fftSize = pow(2, order);
+        fftSize = native_dsp_lut[(int)s->RBWIndex()].fft_size;
 
         // 设置接收机增益
         double gain = s->Gain();
@@ -41,14 +42,19 @@ bool USRP_X310_2CH::Reconfigure(DFSettings *s)
         // 如果工作在定频模式，设置接收机频率
         if (s->Mode() == WorkMode_FFM) {
             double freq = s->Center();
+            double offset = 0.0e6;
+            //advanced tuning with tune_request_t uhd::tune_request_t
+            uhd::tune_request_t tune_req(freq, offset);
+//            tune_req.args = uhd::device_addr_t("mode_n=integer"); //to use Int-N tuning
+
             //we will tune the frontends in 100ms from now
             uhd::time_spec_t cmd_time = usrp->get_time_now() + uhd::time_spec_t(0.1);
             //sets command time on all devices
             //the next commands are all timed
             usrp->set_command_time(cmd_time);
             //tune channel 0 and channel 1
-            usrp->set_rx_freq(freq, 0); // Channel 0
-            usrp->set_rx_freq(freq, 1); // Channel 1
+            usrp->set_rx_freq(tune_req, 0); // Channel 0
+            usrp->set_rx_freq(tune_req, 1); // Channel 1
             //end timed commands
             usrp->clear_command_time();
 
@@ -82,15 +88,15 @@ bool USRP_X310_2CH::OpenDevice()
     std::string ref("internal");
     usrp->set_clock_source(ref);
 
-    std::string subdev("A:0 B:0");
+    std::string subdev("A:0 A:1");
     usrp->set_rx_subdev_spec(subdev); //sets across all mboards
 
     std::cout << boost::format("Using Device: %s") % usrp->get_pp_string() << std::endl;
 
     // 设置多通道共本振
-    usrp->set_rx_lo_export_enabled(true,"all",0); // 通道0的所有本振源为输出状态
-    usrp->set_rx_lo_source("internal","all",0); // 通道0使用内部本振
-    usrp->set_rx_lo_source("external","all",1); // 通道1使用外部本振（来自通道0输出）
+//    usrp->set_rx_lo_export_enabled(true,"all",0);   // 通道0的所有本振源为输出状态
+    usrp->set_rx_lo_source("internal","all",0);     // 通道0使用内部本振
+    usrp->set_rx_lo_source("companion","all",1);     // 通道1使用外部本振（来自通道0输出）
     //    usrp->set_rx_lo_source("external","all",2);
     //    usrp->set_rx_lo_source("external","all",3);
 
@@ -111,7 +117,7 @@ bool USRP_X310_2CH::OpenDevice()
 
     //create a receive streamer
     //linearly map channels (index0 = channel0, index1 = channel1, ...)
-    uhd::stream_args_t stream_args("fc32"); //complex floats
+    uhd::stream_args_t stream_args("fc32", "sc16"); //complex floats
     stream_args.channels = channel_nums;
     rx_stream = usrp->get_rx_stream(stream_args);
 
@@ -170,17 +176,17 @@ void USRP_X310_2CH::FetchRaw()
     IQPacket iqpkt(total_num_samps, nchannels);
 
     const double timeout_fixed = .1;
-    bool verbose = true;
-    unsigned int count = 0;
+    size_t count = 0;
+
     // 根据采样率 rate 和分辨率 rbw 确定数据点数: iqCount = rate/rbw
     // 例如，rate=100Msps, rbw=25kHz, iqCount=100000
     while (streaming) {
 
-        stream_cmd.time_spec = usrp->get_time_now()+uhd::time_spec_t(0.1);
+        stream_cmd.time_spec = usrp->get_time_now()+uhd::time_spec_t(0.01);
         rx_stream->issue_stream_cmd(stream_cmd);
 
-        double timeout = timeout_fixed; //timeout (delay before receive + padding)
-        size_t num_acc_samps = 0; //number of accumulated samples
+        double timeout = timeout_fixed; // timeout (delay before receive + padding)
+        size_t num_acc_samps = 0;       // number of accumulated samples
 
         while(num_acc_samps < total_num_samps){
             //receive a single packet
@@ -200,18 +206,12 @@ void USRP_X310_2CH::FetchRaw()
                                                  ) % md.strerror()));
             }
 
-            if(verbose)
-                std::cout << boost::format(
-                                 "Received packet: %u samples, %u full secs, %f frac secs"
-                                 ) % num_rx_samps % md.time_spec.get_full_secs() % md.time_spec.get_frac_secs() << std::endl;
-
-//            for (int m = 0; m < buff_ptrs.size(); m++) {
-//                std::complex<float> *ptr = buff_ptrs.at(m);
-//                for (int n = 0; n < num_rx_samps; n++) {
-//                    iq_full(k*total_num_samps+num_acc_samps+n, m) = ptr[n];
-//                    iq(num_acc_samps+n, m) = ptr[n];
-//                }
-//            }
+            for (int m = 0; m < buff_ptrs.size(); m++) {
+                std::complex<float> *ptr = buff_ptrs.at(m);
+                for (int n = 0; n < num_rx_samps; n++) {
+                    iqpkt.iqData(num_acc_samps+n, m) = ptr[n];
+                }
+            }
 
             num_acc_samps += num_rx_samps;
         }
@@ -219,13 +219,6 @@ void USRP_X310_2CH::FetchRaw()
         if (num_acc_samps != total_num_samps)
             std::cerr << "Receive timeout before all samples received..." << std::endl;
         else {
-            for (int m = 0; m < nchannels; m++) {
-                std::complex<float> *ptr = buff_ptrs.at(m);
-                for (int n = 0; n < total_num_samps; n++) {
-                    iqpkt.iqData(n, m) = ptr[n];
-                }
-            }
-
             iqpkt.center = usrp->get_rx_freq();
             iqpkt.antennaNum = count % NUM_ANTENNAS;
             IQ_Pool.push(iqpkt);
@@ -236,10 +229,15 @@ void USRP_X310_2CH::FetchRaw()
 
 void USRP_X310_2CH::Sort()
 {
+    int nchannels = usrp->get_rx_num_channels();
+    fvec coe_win(iqCount);
+    build_blackman_window(coe_win.memptr(), iqCount);
+
+    cx_fmat addWindow(iqCount, nchannels);
+
     IQPacket onepacket;
     FFTPacket fftpacket(fftSize, NUM_ANTENNAS);
-    IntermediatePacket frame(fftSizeBW, NUM_ANTENNAS);
-    uvec bwRangeIdx = regspace<uvec>(fftSize/2-fftSizeBW/2,fftSize/2+fftSizeBW/2-1);
+    IntermediatePacket frame(fftSize, NUM_ANTENNAS);
     uvec packet_status(fftpacket.ncols,fill::zeros);
 
     while (streaming) {
@@ -249,7 +247,16 @@ void USRP_X310_2CH::Sort()
             // 对IQ数据作FFT。面临两个问题：一是要利用FFT的高效率，FFT点数必须为2的幂次方；
             // 二是采样时钟可能是任意值，要取得某一分辨率对应的采样点数未必为2的幂次方。
             // 目前采取的方法是：优先保证效率，实际的RBW在要求的RBW最近位置
-            cx_fmat Y = arma::shift(arma::fft(onepacket.iqData, fftSize)/fftSize, fftSize/2);
+            for (int m = 0; m < nchannels; m++)
+            {
+                for (int n = 0; n < iqCount; n++)
+                {
+                    addWindow(n,m) = onepacket.iqData(n,m) * coe_win(n);
+                }
+            }
+
+            cx_fmat Y = arma::shift(arma::fft(addWindow, fftSize)/fftSize, fftSize/2);
+//            cx_fmat Y = arma::fft(addWindow, fftSize)/fftSize;
 
             // normalize to channel 1
             fmat A = 20.0*log10(abs(Y));
@@ -294,7 +301,7 @@ void USRP_X310_2CH::Sort()
             // if it is full, further process
             if (sum(packet_status) == packet_status.size()) {
                 frame.center = onepacket.center;
-                frame.amplitudes = fftpacket.amplitudes.rows(bwRangeIdx);
+                frame.amplitudes = fftpacket.amplitudes;
 
                 // 从 fs 带宽数据中取够 bw 带宽数据
                 fvec dp23 = fftpacket.phases.col(0)-fftpacket.phases.col(1);
@@ -305,10 +312,10 @@ void USRP_X310_2CH::Sort()
                 fvec dp41 = dp21 - dp24;
                 fvec dp51 = dp21 - dp25;
 
-                frame.phases.col(1) = dp21(bwRangeIdx);
-                frame.phases.col(2) = dp31(bwRangeIdx);
-                frame.phases.col(3) = dp41(bwRangeIdx);
-                frame.phases.col(4) = dp51(bwRangeIdx);
+                frame.phases.col(1) = dp21;
+                frame.phases.col(2) = dp31;
+                frame.phases.col(3) = dp41;
+                frame.phases.col(4) = dp51;
 
                 preprocessed_data.push(frame);
 //                std::cout << "preprocessed_data coming!" << std::endl;

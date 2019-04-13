@@ -16,10 +16,13 @@ DFSettings::DFSettings() : DFEnabled(false)
     user_stop = 3000000000;
 
     // modify rbw and bw within it
-    setRBWGrade(RBWIndex_12p5kHz);
+//    setRBWGrade(RBWIndex_3p125kHz);
+//    setRBWGrade(RBWIndex_6p25kHz);
+//    setRBWGrade(RBWIndex_12p5kHz);
+    setRBWGrade(RBWIndex_25kHz);
 
     atten_mode = RFAttenMode_Manual;
-    gain = 70;
+    gain = 90;
     atten = 20;
     atten_cal = 0;
     fft_avg_cnt = Avg_Count_8;
@@ -33,7 +36,7 @@ DFSettings::DFSettings() : DFEnabled(false)
     ant_switch_auto = true;
 
     observ = center;
-    observIndex = (observ-(center-bw/2))/rbw-8;
+    observIndex = (observ-(center-bw/2))/rbw;
 }
 
 DFSettings& DFSettings::operator=(const DFSettings &other)
@@ -171,7 +174,7 @@ Hzvec DFSettings::Centers()
     stop = centers.max() + bw/2 - rbw;
     span = stop - start;
 
-    freqList.set_size(centers.size()*native_dsp_lut[rbw_index].fft_size_bw);
+    freqList.set_size(centers.size()*native_dsp_lut[rbw_index].fft_size);
 
     int count = 0;
 
@@ -227,7 +230,7 @@ void DFSettings::setRBWGrade(int _rbw)
         break;
     }
 
-    bw = native_dsp_lut[rbw_index].bw;
+    bw = native_dsp_lut[rbw_index].rate;
     updated(this);
 }
 
