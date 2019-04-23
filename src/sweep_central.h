@@ -38,7 +38,7 @@ private:
 //    DFSettings last_config;
 
 signals:
-    void doaResults(float, QVector<QPointF>);
+    void DOAComing(float, QVector<QPointF>);
     void plotsAxisYUpdated(mat);
     void plotsAxisXUpdated(double xmin, double xmax);
 

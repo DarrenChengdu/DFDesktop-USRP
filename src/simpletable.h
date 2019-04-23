@@ -19,18 +19,17 @@ public:
 
 private:
     QTableView *tableView;
-    QComboBox *azimCombo;
-    QLineEdit *offsetLine;
+    QComboBox *combo_azim;
 
 signals:
-    void freqOffsetChanged(int);
     void dataCorrectedByCAL(bool);
     void azimIndexChanged(int);
+
 private slots:
     void slotCurrentAzimChanged(int);
+
 public slots:
     void setSamplingAzim(QStringList);
-    void updateTable(const DFSettings *);
 };
 
 #endif // SIMPLETABLE_H

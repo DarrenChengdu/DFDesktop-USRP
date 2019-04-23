@@ -3,6 +3,7 @@
 #include "lib/bb_lib.h"
 
 namespace po = boost::program_options;
+const int X300_COMMAND_FIFO_DEPTH = 16;
 
 int fft_size_from_rate_and_rbw(float _rate, float _rbw)
 {
@@ -20,18 +21,26 @@ bool USRP_X310_2CH::Reconfigure(DFSettings *s)
     if (!isOpen)
         return false;
 
-    if (s->RBW() != rbw) {
+    {
         if (streaming) {
             StopStreaming();
+            IQ_Pool.reset();
+
+            raw_mtx.lock();
+            preprocessed_data.reset();
+            raw_mtx.unlock();
         }
 
         rbw = s->RBW();
-        iqCount = native_dsp_lut[(int)s->RBWIndex()].fft_size;
+        int rbwIndex = (int)s->RBWIndex();
+        int bwIndex = (int)s->BWIndex();
+        int lutIndex = GetDSPLUTIndex(bwIndex, rbwIndex);
+        iqCount = native_dsp_lut[lutIndex].fft_size;
 
 //        int order = (int)ceil(log2(iqCount));
 //        fftSize = pow(2, order);
-        fftSize = native_dsp_lut[(int)s->RBWIndex()].fft_size;
-        fftSizeBW = native_dsp_lut[(int)s->RBWIndex()].fft_size_bw;
+        fftSize = native_dsp_lut[lutIndex].fft_size;
+        fftSizeBW = native_dsp_lut[lutIndex].fft_size_bw;
 
         // 设置接收机增益
         double gain = s->Gain();
@@ -48,14 +57,14 @@ bool USRP_X310_2CH::Reconfigure(DFSettings *s)
             uhd::tune_request_t tune_req(freq, offset);
 //            tune_req.args = uhd::device_addr_t("mode_n=integer"); //to use Int-N tuning
 
-            //we will tune the frontends in 100ms from now
+            //we will tune the frontends in 20ms from now
             uhd::time_spec_t cmd_time = usrp->get_time_now() + uhd::time_spec_t(0.02);
             //sets command time on all devices
             //the next commands are all timed
             usrp->set_command_time(cmd_time);
             //tune channel 0 and channel 1
-            usrp->set_rx_freq(tune_req, 0); // Channel 0
-            usrp->set_rx_freq(tune_req, 1); // Channel 1
+            usrp->set_rx_freq(tune_req, 0);
+            usrp->set_rx_freq(tune_req, 1);
             //end timed commands
             usrp->clear_command_time();
 
@@ -63,16 +72,15 @@ bool USRP_X310_2CH::Reconfigure(DFSettings *s)
         }
 
         // 设置IQ数据速率
-        double rate = native_dsp_lut[(int)s->RBWIndex()].rate;
+        double rate = native_dsp_lut[lutIndex].rate;
         //set the rx sample rate (sets across all channels)
         std::cout << boost::format("Setting RX Rate: %f Msps...") % (rate/1e6) << std::endl;
         usrp->set_rx_rate(rate, 0);
         usrp->set_rx_rate(rate, 1);
         std::cout << boost::format("Actual RX Rate: %f Msps...") % (usrp->get_rx_rate()/1e6) << std::endl << std::endl;
 
-
-
         StartStreaming();
+        std::cout << "USRP 重配结束" << std::endl;
     }
 
     return true;
@@ -173,39 +181,43 @@ void USRP_X310_2CH::FetchRaw()
     uhd::stream_cmd_t stream_cmd(uhd::stream_cmd_t::STREAM_MODE_NUM_SAMPS_AND_DONE);
     stream_cmd.num_samps = total_num_samps;
     stream_cmd.stream_now = false;
+//    stream_cmd.time_spec = uhd::time_spec_t(0.0);
 
     int nchannels = usrp->get_rx_num_channels();
     IQPacket iqpkt(total_num_samps, nchannels);
 
-    const double timeout_fixed = .1;
     size_t count = 0;
 
+    std::cout << "FetchRaw 线程准备开始" << std::endl;
+
+    // Stream commands will be scheduled at regular intervals
+    double receive_interval = 10.0e-3;
+    uhd::time_spec_t receive_interval_ts = uhd::time_spec_t(receive_interval);
+
+    double timeout = 0.1;
     // 根据采样率 rate 和分辨率 rbw 确定数据点数: iqCount = rate/rbw
     // 例如，rate=100Msps, rbw=25kHz, iqCount=100000
     while (streaming) {
 
-        stream_cmd.time_spec = usrp->get_time_now()+uhd::time_spec_t(0.01);
+        stream_cmd.time_spec = usrp->get_time_now() + receive_interval_ts;
         rx_stream->issue_stream_cmd(stream_cmd);
 
-        double timeout = timeout_fixed; // timeout (delay before receive + padding)
         size_t num_acc_samps = 0;       // number of accumulated samples
 
         while(num_acc_samps < total_num_samps){
-            //receive a single packet
-            size_t num_rx_samps = rx_stream->recv(
-                        buff_ptrs, samps_per_buff, md, timeout
-                        );
 
-            //use a small timeout for subsequent packets
-//            timeout = 0.1;
+            size_t num_to_recv = std::min<size_t>(samps_per_buff, (total_num_samps - num_acc_samps));
+
+            size_t num_rx_samps = rx_stream->recv(
+                buff_ptrs, num_to_recv, md, timeout
+            );
 
             //handle the error code
-            if (md.error_code == uhd::rx_metadata_t::ERROR_CODE_TIMEOUT)
-                break;
+            if (md.error_code == uhd::rx_metadata_t::ERROR_CODE_TIMEOUT) break;
             if (md.error_code != uhd::rx_metadata_t::ERROR_CODE_NONE){
                 throw std::runtime_error(str(boost::format(
-                                                 "Receiver error %s"
-                                                 ) % md.strerror()));
+                    "Receiver error %s"
+                ) % md.strerror()));
             }
 
             for (int m = 0; m < buff_ptrs.size(); m++) {

@@ -21,7 +21,6 @@ public:
 	DFSettings& operator=(const DFSettings &other);
 	bool operator==(const DFSettings &other) const;
 	bool operator!=(const DFSettings &other) const;
-	bool Match(const DFSettings &other);
 
 	void LoadDefaults();
 	bool Load(QSettings &s){}
@@ -45,8 +44,8 @@ public:
 
     unsigned int dBAttenCAL() const { return atten_cal; }
     unsigned int dBAttenRF() const { return atten; }
-    ReceiverMode RecvMode() const {return rmode;}
-    RFAttenMode AttenModeRF() const { return atten_mode; }
+    ReceiverMode GainProfile() const {return rmode;}
+    RXAGCStatus AttenModeRF() const { return atten_mode; }
     FFTAvgCnt AvgCount() const {return fft_avg_cnt;}
 
     bool isSweeping() const { return sweeping; }
@@ -57,8 +56,8 @@ public:
     bool isCalibrating() const {return calibrating;}
     bool isCalibratingAuto() const {return calibrating_auto;}
     bool isDFEnabled() const {return DFEnabled;}
-    Hz FreqObserv() const {return observ;}
-    int FreqObservIndex() const {return observIndex;}
+    Hz Observation() const {return freq_observ;}
+    int ObservIndex() const;
     Hz FreqMin() {return freqList.min();}
     Hz FreqMax() {return freqList.max();}
     Hzvec FreqList() const {return freqList;}
@@ -67,6 +66,7 @@ public:
 protected:
 
 private:
+    void generateFrequencyList();
     WorkMode wmode;
     ReceiverMode rmode;
 
@@ -77,11 +77,13 @@ private:
     Hz center;
     Hz span;
 
+    Hzvec centers;
+
     Hz bw;
     Bandwidths bw_index;
     Hz rbw;
     RBWGrade rbw_index;
-    RFAttenMode atten_mode;
+    RXAGCStatus atten_mode;
     unsigned int gain;
     unsigned int atten;
     unsigned int atten_cal;
@@ -94,7 +96,7 @@ private:
     bool ant_switch_auto;
     int current_ant_layer;
     bool DFEnabled;
-    Hz observ;
+    Hz freq_observ;
     int observIndex;
     Hzvec freqList;
 
@@ -124,20 +126,21 @@ public slots:
     void setWorkMode(WorkMode _mode){ wmode = _mode;  updated(this);}
     void setUserStart(Frequency _start){ user_start = _start.Val(); }
     void setUserStop(Frequency _stop){ user_stop = _stop.Val(); }
-    void setCenter(Frequency _center){ center = _center.Val(); updated(this);}
+    void setCenter(Frequency _center);
     void setSpan(Frequency _span){ span = _span.Val(); }
 	void setFullSpan(){  }
 	void setMinSpan(){  }
     void setRBWGrade(int _rbw);
+    void setBandwidth(int _bw);
+    void setGain(double);
     void setAttenRF(double _atten){ atten = (unsigned int)_atten;  updated(this);}
-    void setAttenModeRF(int _mode) {atten_mode = (RFAttenMode)_mode; updated(this);}
+    void setAttenModeRF(int _mode) {atten_mode = (RXAGCStatus)_mode; updated(this);}
     void setAttenCAL(double _atten){ atten_cal = (unsigned int)_atten;  updated(this);}
 	void setSweep(bool _sweeping){ sweeping = _sweeping; }	
-    int  NptsRequired();
     void startCalibrating() {calibrating = true; updated(this);}
     void stopCalibrating() {calibrating = false; updated(this);}
     void setDFEnabled(bool enabled) {DFEnabled = enabled; updated(this);}
-    void setFreqObervIndex(int ind);
+    void setObservation(Frequency f);
 
 signals:
     // Emit when settings successfully changed

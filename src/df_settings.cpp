@@ -1,4 +1,5 @@
 #include "df_settings.h"
+#include "lib/bb_lib.h"
 
 // centers presets corresponding to various bandwidths
 const Hzvec centers_ref_bw20M = regspace<Hzvec>(40000000,20000000,3010000000);
@@ -6,7 +7,7 @@ const Hzvec centers_ref_bw10M = regspace<Hzvec>(35000000,10000000,3010000000);
 const Hzvec centers_ref_bw5M = regspace<Hzvec>(32500000,5000000,3010000000);
 const Hzvec centers_ref_bw2p5M = regspace<Hzvec>(31250000, 2500000, 3010000000);
 
-DFSettings::DFSettings() : DFEnabled(false)
+DFSettings::DFSettings() : DFEnabled(false), bw_index(Bandwidths_20MHz), rbw_index(RBWIndex_25kHz)
 {
     wmode = WorkMode_FFM;
     rmode = COMMON;
@@ -15,14 +16,20 @@ DFSettings::DFSettings() : DFEnabled(false)
     user_start = 30000000;
     user_stop = 3000000000;
 
+    // FFM
+    centers.set_size(1);
+    centers(0) = center;
+
     // modify rbw and bw within it
 //    setRBWGrade(RBWIndex_3p125kHz);
 //    setRBWGrade(RBWIndex_6p25kHz);
 //    setRBWGrade(RBWIndex_12p5kHz);
     setRBWGrade(RBWIndex_25kHz);
+    setBandwidth(Bandwidths_20MHz);
+    setObservation(center);
 
     atten_mode = RFAttenMode_Manual;
-    gain = 90;
+    gain = 0;
     atten = 20;
     atten_cal = 0;
     fft_avg_cnt = Avg_Count_8;
@@ -34,9 +41,6 @@ DFSettings::DFSettings() : DFEnabled(false)
     recv_loop = Loop_Inner;
     calibrating_auto = false;
     ant_switch_auto = true;
-
-    observ = center;
-    observIndex = (observ-(center-bw/2))/rbw;
 }
 
 DFSettings& DFSettings::operator=(const DFSettings &other)
@@ -66,7 +70,7 @@ DFSettings& DFSettings::operator=(const DFSettings &other)
     ant_switch_auto = other.ant_switch_auto;
     current_ant_layer = other.current_ant_layer;
     DFEnabled = other.DFEnabled;
-    observ = other.observ;
+    freq_observ = other.freq_observ;
     observIndex = other.observIndex;
 
     // Assuming this is needed for now ?
@@ -103,7 +107,7 @@ bool DFSettings::operator==(const DFSettings &other) const
     if (ant_switch_auto != other.ant_switch_auto) return false;
     if (current_ant_layer != other.current_ant_layer) return false;
     if (DFEnabled != other.DFEnabled) return false;
-    if (observ != other.observ) return false;
+    if (freq_observ != other.freq_observ) return false;
     if (observIndex != other.observIndex) return false;
 
     return true;
@@ -122,59 +126,12 @@ void DFSettings::LoadDefaults()
 
 Hzvec DFSettings::Centers()
 {
-    Hzvec centers;
+    return centers;
+}
 
-    if (wmode == WorkMode_FFM)
-    {
-        centers.set_size(1);
-        centers << center;
-    }
-    else if (wmode == WorkMode_PSCAN)
-    {
-        Hzvec centers_ref;
-
-        switch (rbw_index) {
-        case RBWIndex_25kHz:
-            centers_ref = centers_ref_bw20M;
-            break;
-        case RBWIndex_12p5kHz:
-            centers_ref = centers_ref_bw10M;
-            break;
-        case RBWIndex_6p25kHz:
-            centers_ref = centers_ref_bw5M;
-            break;
-        case RBWIndex_3p125kHz:
-            centers_ref = centers_ref_bw2p5M;
-            break;
-        default:
-            break;
-        }
-
-        int ind_start, ind_stop;
-
-        for (int n = 0; n < centers_ref.size(); n++)
-        {
-            if (user_start >= centers_ref(n)-bw/2 && user_start < centers_ref(n)+bw/2)
-            {
-                ind_start = n;
-            }
-            if (user_stop >= centers_ref(n)-bw/2 && user_stop < centers_ref(n)+bw/2)
-            {
-                ind_stop = n;
-            }
-        }
-
-        centers = linspace<Hzvec>(centers_ref(ind_start)
-                                  ,centers_ref(ind_stop)
-                                  ,ind_stop-ind_start+1);
-    }
-
-    // left closed, right open
-    start = centers.min() - bw/2;
-    stop = centers.max() + bw/2 - rbw;
-    span = stop - start;
-
-    freqList.set_size(centers.size()*native_dsp_lut[rbw_index].fft_size_bw);
+void DFSettings::generateFrequencyList()
+{
+    freqList.set_size(centers.size()*native_dsp_lut[GetDSPLUTIndex(bw_index,rbw_index)].fft_size_bw);
 
     int count = 0;
 
@@ -187,58 +144,70 @@ Hzvec DFSettings::Centers()
             count++;
         }
     }
-
-    observ = freqList(observIndex);
-
-    return centers;
 }
 
-int DFSettings::NptsRequired()
-{
-    int npts;
+void DFSettings::setCenter(Frequency _center){
+    center = _center.Val();
 
     if (wmode == WorkMode_FFM)
     {
-        npts = bw / rbw;
-    }
-    else if (wmode == WorkMode_PSCAN)
-    {
-        npts = (user_stop - user_start)/rbw + 1;
+        centers.set_size(1);
+        centers(0) = center;
+
+        start = centers.min() - bw/2;
+        stop = centers.max() + bw/2 - rbw;
+        span = stop - start;
     }
 
-    return npts;
+    updated(this);
 }
 
 void DFSettings::setRBWGrade(int _rbw)
 {
     rbw_index = (RBWGrade)_rbw;
+    rbw = native_dsp_lut[GetDSPLUTIndex(bw_index,rbw_index)].rbw;
 
-    switch (rbw_index) {
-    case RBWIndex_25kHz:
-        rbw = 25000;
-        break;
-    case RBWIndex_12p5kHz:
-        rbw = 12500;
-        break;
-    case RBWIndex_6p25kHz:
-        rbw = 6250;
-        break;
-    case RBWIndex_3p125kHz:
-        rbw = 3125;
-        break;
-    default:
-        break;
-    }
-
-    bw = native_dsp_lut[rbw_index].rate;
+    generateFrequencyList();
+    setObservation(freq_observ);
     updated(this);
 }
 
-void DFSettings::setFreqObervIndex(int ind)
+void DFSettings::setGain(double _gain)
 {
-    observIndex = ind;
-    observ = freqList(observIndex);
+    gain = _gain;
+    bb_lib::clamp(gain, (unsigned int)0, (unsigned int)90);
     updated(this);
+}
+
+void DFSettings::setBandwidth(int _bw)
+{
+    bw_index = (Bandwidths)_bw;
+    bw = native_dsp_lut[GetDSPLUTIndex(bw_index,rbw_index)].bw;
+
+    generateFrequencyList();
+    setObservation(freq_observ);
+    updated(this);
+}
+
+void DFSettings::setObservation(Frequency f)
+{
+    if (f < freqList.min()) {
+        observIndex = 0;
+    }
+    else if (f > freqList.max()) {
+        observIndex = freqList.size()-1;
+    }
+    else {
+        Hzvec distance = abs(freqList-f.Val());
+        observIndex = distance.index_min();
+    }
+
+    freq_observ = freqList(observIndex);
+    updated(this);
+}
+
+int DFSettings::ObservIndex() const {
+    return observIndex;
 }
 
 

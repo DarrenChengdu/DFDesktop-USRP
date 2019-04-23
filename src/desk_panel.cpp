@@ -14,10 +14,21 @@ DeskPanel::DeskPanel(const QString &title, Session *sPtr,
     DockPage *path_page = new DockPage(tr("Path Selection"));
 
     // receiver page
-    center = new FrequencyEntry(tr("Central Freq"), 100000000);
+    center = new FrequencyEntry(tr("Center"), 100000000);
 
     connect(center, SIGNAL(freqViewChanged(Frequency)),
         this, SIGNAL(freqChanged(Frequency)));
+
+    observation = new FrequencyEntry(tr("Observation"), center->GetFrequency());
+
+    connect(observation, SIGNAL(freqViewChanged(Frequency)),
+        this, SIGNAL(observChanged(Frequency)));
+
+    combo_bw = new ComboEntry(tr("Bandwidth"));
+    QStringList bw_str;
+    bw_str << "20MHz" << "10MHz" << "5MHz";
+    combo_bw->setComboText(bw_str);
+    combo_bw->setComboIndex(0);
 
     combo_rbw = new ComboEntry(tr("RBW"));
     QStringList rbw_str;
@@ -25,23 +36,23 @@ DeskPanel::DeskPanel(const QString &title, Session *sPtr,
     combo_rbw->setComboText(rbw_str);
     combo_rbw->setComboIndex(0);
 
-    recv_mode = new ComboEntry(tr("Rcv. Mode"));
-    QStringList rmode_str;
-    rmode_str << "Normal" << "Low Noise" << "Large SFDR";
-    recv_mode->setComboText(rmode_str);
-    recv_mode->setComboIndex(0);
+    rx_gain_profile = new ComboEntry(tr("Gain Profile"));
+    QStringList profile_str;
+    profile_str << "Normal" << "Low Noise" << "Large SFDR";
+    rx_gain_profile->setComboText(profile_str);
+    rx_gain_profile->setComboIndex(0);
 
-    connect(recv_mode, SIGNAL(comboIndexChanged(int)),
+    connect(rx_gain_profile, SIGNAL(comboIndexChanged(int)),
         this, SIGNAL(rmodeChanged(int)));
 
-    attenModeRF = new ComboEntry(tr("Atten. Mode"));
-    QStringList amode_str;
-    amode_str << "Manual" << "Auto";
-    attenModeRF->setComboText(amode_str);
-    attenModeRF->setComboIndex(1);
+    rx_agc = new ComboEntry(tr("AGC"));
+    QStringList agc_str;
+    agc_str << "Manual" << "Auto";
+    rx_agc->setComboText(agc_str);
+    rx_agc->setComboIndex(1);
 
-    attenRF = new NumericEntry(tr("RF Atten."), 0, tr("dB"));
-    attenRF->setEnabled(false);
+    gain = new NumericEntry(tr("Gain"), 40, tr("dB"));
+    gain->setEnabled(false);
 
     fft_avg_cnt = new ComboEntry(tr("FFT Avg."));
     QStringList avg_str;
@@ -50,11 +61,13 @@ DeskPanel::DeskPanel(const QString &title, Session *sPtr,
     fft_avg_cnt->setComboIndex(0);
 
     receiver_page->AddWidget(center);
+    receiver_page->AddWidget(combo_bw);
     receiver_page->AddWidget(combo_rbw);
-    receiver_page->AddWidget(attenModeRF);
-    receiver_page->AddWidget(attenRF);
-    receiver_page->AddWidget(recv_mode);
-    receiver_page->AddWidget(fft_avg_cnt);
+    receiver_page->AddWidget(rx_agc);
+    receiver_page->AddWidget(gain);
+    receiver_page->AddWidget(rx_gain_profile);
+//    receiver_page->AddWidget(fft_avg_cnt);
+    receiver_page->AddWidget(observation);
 
     // calibrator page
     cal_start_stop = new DualButtonEntry(tr("CAL Start"), tr("CAL Stop"));
@@ -73,6 +86,7 @@ DeskPanel::DeskPanel(const QString &title, Session *sPtr,
     calibrator_page->AddWidget(recv_loop);
     calibrator_page->AddWidget(cal_start_stop);
     calibrator_page->AddWidget(auto_cal);
+    calibrator_page->setEnabled(false);
 
     // path page
     ant_switch_auto = new CheckBoxEntry(tr("Ant. Auto"));
@@ -86,6 +100,7 @@ DeskPanel::DeskPanel(const QString &title, Session *sPtr,
 
     path_page->AddWidget(ant_switch_auto);
     path_page->AddWidget(ant_layer_sel);
+    path_page->setEnabled(false);
 
     SignalGenPage *generator_page = new SignalGenPage(QString(tr("RF Signal Generator")),
                                                 new CSignalGenerator);
@@ -103,14 +118,18 @@ DeskPanel::DeskPanel(const QString &title, Session *sPtr,
             settings, SLOT(setCenter(Frequency)));
     connect(center, SIGNAL(freqViewChanged(Frequency)),
             generator_page, SLOT(setGenFrequency(Frequency)));
+    connect(observation, SIGNAL(freqViewChanged(Frequency)),
+            settings, SLOT(setObservation(Frequency)));
     connect(combo_rbw, SIGNAL(comboIndexChanged(int)),
             settings, SLOT(setRBWGrade(int)));
-    connect(recv_mode, SIGNAL(comboIndexChanged(int)),
+    connect(combo_bw, SIGNAL(comboIndexChanged(int)),
+            settings, SLOT(setBandwidth(int)));
+    connect(rx_gain_profile, SIGNAL(comboIndexChanged(int)),
             settings, SLOT(setRecvMode(int)));
-    connect(attenModeRF, SIGNAL(comboIndexChanged(int)),
+    connect(rx_agc, SIGNAL(comboIndexChanged(int)),
             settings, SLOT(setAttenModeRF(int)));
-    connect(attenRF, SIGNAL(valueChanged(double)),
-            settings, SLOT(setAttenRF(double)));
+    connect(gain, SIGNAL(valueChanged(double)),
+            settings, SLOT(setGain(double)));
     connect(fft_avg_cnt, SIGNAL(comboIndexChanged(int)),
             settings, SLOT(setFFTAvgCnt(int)));
     connect(cal_start_stop, SIGNAL(leftPressed()),
@@ -144,11 +163,13 @@ DeskPanel::~DeskPanel()
 void DeskPanel::updatePanel(const DFSettings *settings)
 {
     center->SetFrequency(settings->Center());
+    observation->SetFrequency(settings->Observation());
     combo_rbw->setComboIndex((int)settings->RBWIndex());
-    recv_mode->setComboIndex((int)settings->RecvMode());
-    attenModeRF->setComboIndex((int)settings->AttenModeRF());
-    attenRF->SetValue(settings->dBAttenRF());
-    attenRF->setEnabled(!settings->AttenModeRF());
+    combo_bw->setComboIndex((int)settings->BWIndex());
+    rx_gain_profile->setComboIndex((int)settings->GainProfile());
+    rx_agc->setComboIndex((int)settings->AttenModeRF());
+    gain->SetValue(settings->Gain());
+    gain->setEnabled(!settings->AttenModeRF());
     fft_avg_cnt->setComboIndex((int)settings->AvgCount());
     calibrator_en->SetChecked(settings->CalibratorEnabled());
     recv_loop->setComboIndex(settings->TypeCAL());

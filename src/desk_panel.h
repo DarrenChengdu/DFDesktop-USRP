@@ -18,9 +18,9 @@ public:
                QWidget *parent = 0);
     ~DeskPanel();
 
-    int RecvMode() const {return recv_mode->currentIndex();}
-    int RFAttenMode() const {return attenModeRF->currentIndex();}
-    int RFAtten() const {return attenRF->GetValue();}
+    int GainProfile() const {return rx_gain_profile->currentIndex();}
+    int RXAGCStatus() const {return rx_agc->currentIndex();}
+    int Gain() const {return gain->GetValue();}
     int CalAtten() const {return calibrator_atten->GetValue();}
     int RBW() const {return combo_rbw->currentIndex();}
 
@@ -29,10 +29,12 @@ private:
     void Preset();
 
 	FrequencyEntry *center;
+    FrequencyEntry *observation;
+    ComboEntry *combo_bw;
     ComboEntry *combo_rbw;
-    ComboEntry *recv_mode;
-    ComboEntry *attenModeRF;
-    NumericEntry *attenRF;
+    ComboEntry *rx_gain_profile;
+    ComboEntry *rx_agc;
+    NumericEntry *gain;
     ComboEntry *fft_avg_cnt;
 
     ComboEntry *recv_loop;
@@ -57,6 +59,7 @@ signals :
     void tunerIDChanged(int);
 
     void freqChanged(Frequency);
+    void observChanged(Frequency);
     void startChanged(Frequency);
     void stopChanged(Frequency);
     void stepChanged(Frequency);

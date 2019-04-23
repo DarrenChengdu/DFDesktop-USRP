@@ -31,7 +31,7 @@ FieldTestDlg::FieldTestDlg(Session *sPtr, QWidget *parent) : session_ptr(sPtr), 
     connect(offset, &NumericEntry::valueChanged,
             this, [=](double v) {
         int index = round(v);
-        settings->setFreqObervIndex(index);
+//        settings->setFreqObervIndex(index);
     });
 
     start = new FrequencyEntry(tr("Freq. Start"), 100000000);
@@ -234,7 +234,7 @@ void FieldTestDlg::updateDlg(const DFSettings *s)
 {
     if (single->IsChecked()) {
         center->SetFrequency(s->Center());
-        offset->SetValue(s->FreqObservIndex());
+        offset->SetValue(s->ObservIndex());
     }
 
     dual_btn->RightButton()->setEnabled(s->isDFEnabled());

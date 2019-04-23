@@ -38,7 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     field_dlg->hide();
 
     qRegisterMetaType<QVector<QPointF>>("CorrCurve");
-    connect(DFSweep, &SweepCentral::doaResults,
+    connect(DFSweep, &SweepCentral::DOAComing,
             field_dlg, &FieldTestDlg::onDOAResultsReceived);
 
     detect_dlg = new DetectDlg(session);
@@ -200,16 +200,12 @@ void MainWindow::setupChartsAndTable()
     sTable->setColumnWidth(0, 25);
     sTable->setColumnWidth(4, 25);
 
-    connect(sTable, &SimpleTable::freqOffsetChanged,
-            session->settings, &DFSettings::setFreqObervIndex);
     connect(sTable, &SimpleTable::dataCorrectedByCAL,
             session->tableSource, &TableSource::setCALEnabled);
     connect(sTable, &SimpleTable::azimIndexChanged,
             session->tableSource, &TableSource::setAzimuthIndex);
     connect(field_dlg, &FieldTestDlg::setSamplingAzim,
             sTable, &SimpleTable::setSamplingAzim);
-    connect(session->settings, &DFSettings::updated,
-            sTable, &SimpleTable::updateTable);
 
     qRegisterMetaType<Hz>("Hz");
     connect(session->tableSource, &TableSource::tableChanged,

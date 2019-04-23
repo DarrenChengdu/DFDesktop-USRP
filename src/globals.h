@@ -43,8 +43,9 @@ using namespace boost::lockfree;
 #define DEVICE_DEBUG
 #define ITU_CHAN_DEBUG
 
-struct dsp_params_lut { size_t rate, bw, rbw, fft_size, fft_size_bw; };
+typedef struct _dsp_params_lut { size_t rate, bw, rbw, fft_size, fft_size_bw; } dsp_params_lut;
 extern dsp_params_lut native_dsp_lut[];
+extern unsigned int GetDSPLUTIndex(int bwIndex, int rbwIndex);
 
 typedef struct IntermediatePacket {
     Hz center;
@@ -150,7 +151,7 @@ enum ReceiverMode {
     LARGE_DYNAMIC
 };
 
-enum RFAttenMode
+enum RXAGCStatus
 {
     RFAttenMode_Manual = 0,
     RFAttenMode_Auto
@@ -167,8 +168,7 @@ enum Bandwidths
 {
     Bandwidths_20MHz = 0,
     Bandwidths_10MHz = 1,
-    Bandwidths_5MHz = 2,
-    Bandwidths_2p5MHz
+    Bandwidths_5MHz
 };
 
 enum RBWGrade

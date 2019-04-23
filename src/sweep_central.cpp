@@ -36,6 +36,7 @@ void SweepCentral::SweepThread()
         if(reconfigure)
         {
             Reconfigure();
+            std::cout << "Reconfiguration done!" << std::endl;
         }
 
         raw_mtx.lock();
@@ -61,7 +62,7 @@ void SweepCentral::SweepThread()
                         MSleep(100); // 等待设备完全响应之后再彻底清空缓存 preprocessed_data
                     }
 
-                    preprocessed_data.reset();
+//                    preprocessed_data.reset();
                 }
                 else
                 {
@@ -92,7 +93,7 @@ void SweepCentral::SweepThread()
                     frowvec tablePha = data_factory->phases.row(observIndex);
                     frowvec tablePhaCal = data_factory->phases_cal.row(observIndex);
 
-                                 QVector<QVector<QPointF> > seriesData;
+                    QVector<QVector<QPointF> > seriesData;
 
                     for (int k = 0; k < nchannels; k++)
                     {
@@ -112,7 +113,7 @@ void SweepCentral::SweepThread()
                                                        tablePhaCal.memptr());
 
                     if (data_factory->isDFEnabled()) {
-                        int offset = session_ptr->settings->FreqObservIndex();
+                        int offset = session_ptr->settings->ObservIndex();
                         float bearing = data_factory->bearings(offset);
 
                         fvec curve = data_factory->corrCurve.col(offset);
@@ -124,7 +125,7 @@ void SweepCentral::SweepThread()
                             curve_v.append(QPointF(theatas[i], curve(i)));
                         }
 
-                        emit doaResults(bearing, curve_v);
+                        emit DOAComing(bearing, curve_v);
                     }
                 }
             }
@@ -146,13 +147,17 @@ void SweepCentral::Reconfigure()
 
     if(session_ptr->device->Reconfigure(s))
     {        
-        data_factory->Init(NUM_ANTENNAS, native_dsp_lut[s->RBWIndex()].fft_size_bw, s->RBW(), s->Centers());
+        int rbwIndex = (int)s->RBWIndex();
+        int bwIndex = (int)s->BWIndex();
+        int lutIndex = GetDSPLUTIndex(bwIndex, rbwIndex);
+
+        data_factory->Init(NUM_ANTENNAS, native_dsp_lut[lutIndex].fft_size_bw, s->RBW(), s->Centers());
         data_factory->setDFEnabled(s->isDFEnabled());
 
         Hzvec f_list = s->FreqList();
-        observIndex = s->FreqObservIndex();
+        observIndex = s->ObservIndex();
         session_ptr->dataSource->setMarkerPos(observIndex);
-        session_ptr->tableSource->setFreqObserv(s->FreqObserv());
+        session_ptr->tableSource->setFreqObserv(s->Observation());
 
         freqs_v = conv_to<vec>::from(f_list) * 1.0e-6;
         emit plotsAxisXUpdated(freqs_v.min(), freqs_v.max());
@@ -173,8 +178,6 @@ void SweepCentral::Reconfigure()
         {
 //            data_factory->SwitchToCAL(s->isCalibrating());
         }
-
-        preprocessed_data.reset();
 
         snapshot_mtx.lock();
         amplitudes_q.reset();
@@ -211,7 +214,7 @@ void SweepCentral::PrintSettings(const DFSettings *s)
     MY_INFO << tr("FFT Bin: ") << s->RBWIndex() << "<0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>";
     MY_INFO << tr("RF Atte. Mode: ") << s->AttenModeRF() << tr("<0-Manual; 1-Auto>");
     MY_INFO << tr("RF Atte. Value (dB): ") << s->dBAttenRF();
-    MY_INFO << tr("Receiver Mode: ") << s->RecvMode() << tr("<0-Common; 1-Low Noise; 2-Large Dynamic>");
+    MY_INFO << tr("Receiver Mode: ") << s->GainProfile() << tr("<0-Common; 1-Low Noise; 2-Large Dynamic>");
     MY_INFO << tr("Average Count: ") << s->AvgCount() << tr("<0-avg_8; 1-avg_16; 2-avg_32>");
     MY_INFO << tr("Calibrator Enabled: ") << s->CalibratorEnabled();
     MY_INFO << tr("Calibrator Atten.: ") << s->dBAttenCAL();
