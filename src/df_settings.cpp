@@ -175,7 +175,7 @@ void DFSettings::setRBWGrade(int _rbw)
 void DFSettings::setGain(double _gain)
 {
     gain = _gain;
-    bb_lib::clamp(gain, (unsigned int)0, (unsigned int)90);
+    bb_lib::clamp(gain, (unsigned int)0, (unsigned int)95);
     updated(this);
 }
 

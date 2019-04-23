@@ -50,7 +50,8 @@ void SweepCentral::SweepThread()
 
             if (data_factory->AllDone())
             {
-                std::cout << "All done!" << std::endl;
+//                std::cout << "All done!" << std::endl;
+
                 if (data_factory->IsCalibrating())
                 {
                     // plan to stop if it was calibrating before

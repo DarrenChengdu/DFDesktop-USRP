@@ -6366,3 +6366,524 @@ void main()
 (2019-04-23 15:51:13) Info: Calibrator Enabled:  false
 (2019-04-23 15:51:13) Info: Calibrator Atten.:  0
 (2019-04-23 15:51:13) Info: Calibration Type:  1
+(2019-04-23 20:12:32) Warning: Failed to open file  ./presets.xml
+(2019-04-23 20:12:32) Info: Details Printing...
+(2019-04-23 20:12:32) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:12:32) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:12:32) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:12:32) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:12:32) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:12:32) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:12:32) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:12:32) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:12:32) Info: Calibrator Enabled:  false
+(2019-04-23 20:12:32) Info: Calibrator Atten.:  0
+(2019-04-23 20:12:32) Info: Calibration Type:  1
+(2019-04-23 20:18:40) Warning: Failed to open file  ./presets.xml
+(2019-04-23 20:18:40) Info: Details Printing...
+(2019-04-23 20:18:40) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:18:40) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:18:40) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:18:40) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:18:40) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:18:40) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:18:40) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:18:40) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:18:40) Info: Calibrator Enabled:  false
+(2019-04-23 20:18:40) Info: Calibrator Atten.:  0
+(2019-04-23 20:18:40) Info: Calibration Type:  1
+(2019-04-23 20:19:23) Warning: Failed to open file  ./presets.xml
+(2019-04-23 20:19:24) Info: Details Printing...
+(2019-04-23 20:19:24) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:19:24) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:19:24) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:19:24) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:19:24) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:19:24) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:19:24) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:19:24) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:19:24) Info: Calibrator Enabled:  false
+(2019-04-23 20:19:24) Info: Calibrator Atten.:  0
+(2019-04-23 20:19:24) Info: Calibration Type:  1
+(2019-04-23 20:27:54) Info: Details Printing...
+(2019-04-23 20:27:54) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:27:54) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:27:54) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:27:54) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:27:54) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:27:54) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:27:54) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:27:54) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:27:54) Info: Calibrator Enabled:  false
+(2019-04-23 20:27:54) Info: Calibrator Atten.:  0
+(2019-04-23 20:27:54) Info: Calibration Type:  1
+(2019-04-23 20:27:56) Info: Details Printing...
+(2019-04-23 20:27:56) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:27:56) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:27:56) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:27:56) Info: FFT Bin:  1 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:27:56) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:27:56) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:27:56) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:27:56) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:27:56) Info: Calibrator Enabled:  false
+(2019-04-23 20:27:56) Info: Calibrator Atten.:  0
+(2019-04-23 20:27:56) Info: Calibration Type:  1
+(2019-04-23 20:27:57) Info: Details Printing...
+(2019-04-23 20:27:57) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:27:57) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:27:57) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:27:57) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:27:57) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:27:57) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:27:57) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:27:57) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:27:57) Info: Calibrator Enabled:  false
+(2019-04-23 20:27:57) Info: Calibrator Atten.:  0
+(2019-04-23 20:27:57) Info: Calibration Type:  1
+(2019-04-23 20:28:00) Info: Details Printing...
+(2019-04-23 20:28:00) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:28:00) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:28:00) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:28:00) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:28:00) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:28:00) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:28:00) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:28:00) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:28:00) Info: Calibrator Enabled:  false
+(2019-04-23 20:28:00) Info: Calibrator Atten.:  0
+(2019-04-23 20:28:00) Info: Calibration Type:  1
+(2019-04-23 20:28:02) Info: Details Printing...
+(2019-04-23 20:28:02) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:28:02) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:28:02) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:28:02) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:28:02) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:28:02) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:28:02) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:28:02) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:28:02) Info: Calibrator Enabled:  false
+(2019-04-23 20:28:02) Info: Calibrator Atten.:  0
+(2019-04-23 20:28:02) Info: Calibration Type:  1
+(2019-04-23 20:28:03) Info: Details Printing...
+(2019-04-23 20:28:03) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:28:03) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:28:03) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:28:03) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:28:03) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:28:03) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:28:03) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:28:03) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:28:03) Info: Calibrator Enabled:  false
+(2019-04-23 20:28:03) Info: Calibrator Atten.:  0
+(2019-04-23 20:28:03) Info: Calibration Type:  1
+(2019-04-23 20:28:17) Info: Details Printing...
+(2019-04-23 20:28:17) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:28:17) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:28:17) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:28:17) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:28:17) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:28:17) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:28:17) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:28:17) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:28:17) Info: Calibrator Enabled:  false
+(2019-04-23 20:28:17) Info: Calibrator Atten.:  0
+(2019-04-23 20:28:17) Info: Calibration Type:  1
+(2019-04-23 20:28:20) Info: Details Printing...
+(2019-04-23 20:28:20) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:28:20) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:28:20) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:28:20) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:28:20) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:28:20) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:28:20) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:28:20) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:28:20) Info: Calibrator Enabled:  false
+(2019-04-23 20:28:20) Info: Calibrator Atten.:  0
+(2019-04-23 20:28:20) Info: Calibration Type:  1
+(2019-04-23 20:28:25) Info: Details Printing...
+(2019-04-23 20:28:25) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:28:25) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:28:25) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:28:25) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:28:25) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:28:25) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:28:25) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:28:25) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:28:25) Info: Calibrator Enabled:  false
+(2019-04-23 20:28:25) Info: Calibrator Atten.:  0
+(2019-04-23 20:28:25) Info: Calibration Type:  1
+(2019-04-23 20:29:46) Info: Details Printing...
+(2019-04-23 20:29:46) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:29:46) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:29:46) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:29:46) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:29:46) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:29:46) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:29:46) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:29:46) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:29:46) Info: Calibrator Enabled:  false
+(2019-04-23 20:29:46) Info: Calibrator Atten.:  0
+(2019-04-23 20:29:46) Info: Calibration Type:  1
+(2019-04-23 20:29:50) Info: Details Printing...
+(2019-04-23 20:29:50) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:29:50) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:29:50) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:29:50) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:29:50) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:29:50) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:29:50) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:29:50) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:29:50) Info: Calibrator Enabled:  false
+(2019-04-23 20:29:50) Info: Calibrator Atten.:  0
+(2019-04-23 20:29:50) Info: Calibration Type:  1
+(2019-04-23 20:29:52) Info: Details Printing...
+(2019-04-23 20:29:52) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:29:52) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:29:52) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:29:52) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:29:52) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:29:52) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:29:52) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:29:52) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:29:52) Info: Calibrator Enabled:  false
+(2019-04-23 20:29:52) Info: Calibrator Atten.:  0
+(2019-04-23 20:29:52) Info: Calibration Type:  1
+(2019-04-23 20:29:54) Info: Details Printing...
+(2019-04-23 20:29:54) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:29:54) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:29:54) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:29:54) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:29:54) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:29:54) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:29:54) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:29:54) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:29:54) Info: Calibrator Enabled:  false
+(2019-04-23 20:29:54) Info: Calibrator Atten.:  0
+(2019-04-23 20:29:54) Info: Calibration Type:  1
+(2019-04-23 20:29:57) Info: Details Printing...
+(2019-04-23 20:29:57) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:29:57) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:29:57) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:29:57) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:29:57) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:29:57) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:29:57) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:29:57) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:29:57) Info: Calibrator Enabled:  false
+(2019-04-23 20:29:57) Info: Calibrator Atten.:  0
+(2019-04-23 20:29:57) Info: Calibration Type:  1
+(2019-04-23 20:29:59) Info: Details Printing...
+(2019-04-23 20:29:59) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:29:59) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:29:59) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:29:59) Info: FFT Bin:  1 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:29:59) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:29:59) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:29:59) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:29:59) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:29:59) Info: Calibrator Enabled:  false
+(2019-04-23 20:29:59) Info: Calibrator Atten.:  0
+(2019-04-23 20:29:59) Info: Calibration Type:  1
+(2019-04-23 20:30:00) Info: Details Printing...
+(2019-04-23 20:30:00) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:30:00) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:30:00) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:30:00) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:30:00) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:30:00) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:30:00) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:30:00) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:30:00) Info: Calibrator Enabled:  false
+(2019-04-23 20:30:00) Info: Calibrator Atten.:  0
+(2019-04-23 20:30:00) Info: Calibration Type:  1
+(2019-04-23 20:30:05) Info: Details Printing...
+(2019-04-23 20:30:05) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:30:05) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:30:05) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:30:05) Info: FFT Bin:  1 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:30:05) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:30:05) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:30:05) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:30:05) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:30:05) Info: Calibrator Enabled:  false
+(2019-04-23 20:30:05) Info: Calibrator Atten.:  0
+(2019-04-23 20:30:05) Info: Calibration Type:  1
+(2019-04-23 20:30:07) Info: Details Printing...
+(2019-04-23 20:30:07) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:30:07) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:30:07) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:30:07) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:30:07) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:30:07) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:30:07) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:30:07) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:30:07) Info: Calibrator Enabled:  false
+(2019-04-23 20:30:07) Info: Calibrator Atten.:  0
+(2019-04-23 20:30:07) Info: Calibration Type:  1
+(2019-04-23 20:30:09) Info: Details Printing...
+(2019-04-23 20:30:09) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:30:09) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:30:09) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:30:09) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:30:09) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:30:09) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:30:09) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:30:09) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:30:09) Info: Calibrator Enabled:  false
+(2019-04-23 20:30:09) Info: Calibrator Atten.:  0
+(2019-04-23 20:30:09) Info: Calibration Type:  1
+(2019-04-23 20:30:11) Info: Details Printing...
+(2019-04-23 20:30:11) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:30:11) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:30:11) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:30:11) Info: FFT Bin:  1 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:30:11) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:30:11) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:30:11) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:30:11) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:30:11) Info: Calibrator Enabled:  false
+(2019-04-23 20:30:11) Info: Calibrator Atten.:  0
+(2019-04-23 20:30:11) Info: Calibration Type:  1
+(2019-04-23 20:30:12) Info: Details Printing...
+(2019-04-23 20:30:12) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:30:12) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:30:12) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:30:12) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:30:12) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:30:12) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:30:12) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:30:12) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:30:12) Info: Calibrator Enabled:  false
+(2019-04-23 20:30:12) Info: Calibrator Atten.:  0
+(2019-04-23 20:30:12) Info: Calibration Type:  1
+(2019-04-23 20:30:26) Info: Details Printing...
+(2019-04-23 20:30:26) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:30:26) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:30:26) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:30:26) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:30:26) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:30:26) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:30:26) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:30:26) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:30:26) Info: Calibrator Enabled:  false
+(2019-04-23 20:30:26) Info: Calibrator Atten.:  0
+(2019-04-23 20:30:26) Info: Calibration Type:  1
+(2019-04-23 20:30:29) Info: Details Printing...
+(2019-04-23 20:30:29) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:30:29) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:30:29) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:30:29) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:30:29) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:30:29) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:30:29) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:30:29) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:30:29) Info: Calibrator Enabled:  false
+(2019-04-23 20:30:29) Info: Calibrator Atten.:  0
+(2019-04-23 20:30:29) Info: Calibration Type:  1
+(2019-04-23 20:30:51) Info: Details Printing...
+(2019-04-23 20:30:51) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:30:51) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:30:51) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:30:51) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:30:51) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:30:51) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:30:51) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:30:51) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:30:51) Info: Calibrator Enabled:  false
+(2019-04-23 20:30:51) Info: Calibrator Atten.:  0
+(2019-04-23 20:30:51) Info: Calibration Type:  1
+(2019-04-23 20:32:14) Info: Details Printing...
+(2019-04-23 20:32:14) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:32:14) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:32:14) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:32:14) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:32:14) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:32:14) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:32:14) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:32:14) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:32:14) Info: Calibrator Enabled:  false
+(2019-04-23 20:32:14) Info: Calibrator Atten.:  0
+(2019-04-23 20:32:14) Info: Calibration Type:  1
+(2019-04-23 20:32:30) Warning: Failed to open file  ./presets.xml
+(2019-04-23 20:32:31) Info: Details Printing...
+(2019-04-23 20:32:31) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:32:31) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:32:31) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:32:31) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:32:31) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:32:31) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:32:31) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:32:31) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:32:31) Info: Calibrator Enabled:  false
+(2019-04-23 20:32:31) Info: Calibrator Atten.:  0
+(2019-04-23 20:32:31) Info: Calibration Type:  1
+(2019-04-23 20:32:39) Info: Details Printing...
+(2019-04-23 20:32:39) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:32:39) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:32:39) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:32:39) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:32:39) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:32:39) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:32:39) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:32:39) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:32:39) Info: Calibrator Enabled:  false
+(2019-04-23 20:32:39) Info: Calibrator Atten.:  0
+(2019-04-23 20:32:39) Info: Calibration Type:  1
+(2019-04-23 20:32:57) Info: Details Printing...
+(2019-04-23 20:32:57) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:32:57) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:32:57) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:32:57) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:32:57) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:32:57) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:32:57) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:32:57) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:32:57) Info: Calibrator Enabled:  false
+(2019-04-23 20:32:57) Info: Calibrator Atten.:  0
+(2019-04-23 20:32:57) Info: Calibration Type:  1
+(2019-04-23 20:34:03) Info: Details Printing...
+(2019-04-23 20:34:03) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:34:03) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:34:03) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:34:03) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:34:03) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:34:03) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:34:03) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:34:03) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:34:03) Info: Calibrator Enabled:  false
+(2019-04-23 20:34:03) Info: Calibrator Atten.:  0
+(2019-04-23 20:34:03) Info: Calibration Type:  1
+(2019-04-23 20:35:11) Warning: Failed to open file  ./presets.xml
+(2019-04-23 20:35:12) Info: Details Printing...
+(2019-04-23 20:35:12) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:35:12) Info: Frequency Center:  500000000 Hz
+(2019-04-23 20:35:12) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:35:12) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:35:12) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:35:12) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:35:12) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:35:12) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:35:12) Info: Calibrator Enabled:  false
+(2019-04-23 20:35:12) Info: Calibrator Atten.:  0
+(2019-04-23 20:35:12) Info: Calibration Type:  1
+(2019-04-23 20:35:18) Info: Details Printing...
+(2019-04-23 20:35:18) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:35:18) Info: Frequency Center:  200000000 Hz
+(2019-04-23 20:35:18) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:35:18) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:35:18) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:35:18) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:35:18) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:35:18) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:35:18) Info: Calibrator Enabled:  false
+(2019-04-23 20:35:18) Info: Calibrator Atten.:  0
+(2019-04-23 20:35:18) Info: Calibration Type:  1
+(2019-04-23 20:35:20) Info: Details Printing...
+(2019-04-23 20:35:20) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:35:20) Info: Frequency Center:  200000000 Hz
+(2019-04-23 20:35:20) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:35:20) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:35:20) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:35:20) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:35:20) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:35:20) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:35:20) Info: Calibrator Enabled:  false
+(2019-04-23 20:35:20) Info: Calibrator Atten.:  0
+(2019-04-23 20:35:20) Info: Calibration Type:  1
+(2019-04-23 20:35:24) Info: Details Printing...
+(2019-04-23 20:35:24) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:35:24) Info: Frequency Center:  200000000 Hz
+(2019-04-23 20:35:24) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:35:24) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:35:24) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:35:24) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:35:24) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:35:24) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:35:24) Info: Calibrator Enabled:  false
+(2019-04-23 20:35:24) Info: Calibrator Atten.:  0
+(2019-04-23 20:35:24) Info: Calibration Type:  1
+(2019-04-23 20:36:26) Info: Details Printing...
+(2019-04-23 20:36:26) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:36:26) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:36:26) Info: Bandwidth:  20000000 Hz
+(2019-04-23 20:36:26) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:36:26) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:36:26) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:36:26) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:36:26) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:36:26) Info: Calibrator Enabled:  false
+(2019-04-23 20:36:26) Info: Calibrator Atten.:  0
+(2019-04-23 20:36:26) Info: Calibration Type:  1
+(2019-04-23 20:37:13) Info: Details Printing...
+(2019-04-23 20:37:13) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:37:13) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:37:13) Info: Bandwidth:  10000000 Hz
+(2019-04-23 20:37:13) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:37:13) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:37:13) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:37:13) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:37:13) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:37:13) Info: Calibrator Enabled:  false
+(2019-04-23 20:37:13) Info: Calibrator Atten.:  0
+(2019-04-23 20:37:13) Info: Calibration Type:  1
+(2019-04-23 20:37:15) Info: Details Printing...
+(2019-04-23 20:37:15) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:37:15) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:37:15) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:37:15) Info: FFT Bin:  2 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:37:15) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:37:15) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:37:15) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:37:15) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:37:15) Info: Calibrator Enabled:  false
+(2019-04-23 20:37:15) Info: Calibrator Atten.:  0
+(2019-04-23 20:37:15) Info: Calibration Type:  1
+(2019-04-23 20:37:31) Info: Details Printing...
+(2019-04-23 20:37:31) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:37:31) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:37:31) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:37:31) Info: FFT Bin:  3 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:37:31) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:37:31) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:37:31) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:37:31) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:37:31) Info: Calibrator Enabled:  false
+(2019-04-23 20:37:31) Info: Calibrator Atten.:  0
+(2019-04-23 20:37:31) Info: Calibration Type:  1
+(2019-04-23 20:37:53) Info: Details Printing...
+(2019-04-23 20:37:53) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:37:53) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:37:53) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:37:53) Info: FFT Bin:  3 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:37:53) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:37:53) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:37:53) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:37:53) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:37:53) Info: Calibrator Enabled:  false
+(2019-04-23 20:37:53) Info: Calibrator Atten.:  0
+(2019-04-23 20:37:53) Info: Calibration Type:  1
+(2019-04-23 20:38:07) Info: Details Printing...
+(2019-04-23 20:38:07) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:38:07) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:38:07) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:38:07) Info: FFT Bin:  0 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:38:07) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:38:07) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:38:07) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:38:07) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:38:07) Info: Calibrator Enabled:  false
+(2019-04-23 20:38:07) Info: Calibrator Atten.:  0
+(2019-04-23 20:38:07) Info: Calibration Type:  1
+(2019-04-23 20:39:07) Info: Details Printing...
+(2019-04-23 20:39:07) Info: Work Mode:  0 <0-FFM; 1-PScan>
+(2019-04-23 20:39:07) Info: Frequency Center:  100000000 Hz
+(2019-04-23 20:39:07) Info: Bandwidth:  5000000 Hz
+(2019-04-23 20:39:07) Info: FFT Bin:  3 <0-25kHz; 1-12.5kHz; 2-6.25kHz; 3-3.125kHz>
+(2019-04-23 20:39:07) Info: RF Atte. Mode:  0 <0-Manual; 1-Auto>
+(2019-04-23 20:39:07) Info: RF Atte. Value (dB):  20
+(2019-04-23 20:39:07) Info: Receiver Mode:  0 <0-Common; 1-Low Noise; 2-Large Dynamic>
+(2019-04-23 20:39:07) Info: Average Count:  0 <0-avg_8; 1-avg_16; 2-avg_32>
+(2019-04-23 20:39:07) Info: Calibrator Enabled:  false
+(2019-04-23 20:39:07) Info: Calibrator Atten.:  0
+(2019-04-23 20:39:07) Info: Calibration Type:  1
