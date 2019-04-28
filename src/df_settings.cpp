@@ -29,7 +29,7 @@ DFSettings::DFSettings() : DFEnabled(false), bw_index(Bandwidths_20MHz), rbw_ind
     setObservation(center);
 
     atten_mode = RFAttenMode_Manual;
-    gain = 0;
+    gain = 40;
     atten = 20;
     atten_cal = 0;
     fft_avg_cnt = Avg_Count_8;
