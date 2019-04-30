@@ -18,7 +18,7 @@ float GetDeltaPhase(short cPha)
 const int CAL_COUNT_MAX = 100;
 
 DataFactory::DataFactory(Session *sPtr) : session_ptr(sPtr), initialized(false)
-  , DFEnabled(true), calibrating(false)
+  , DFEnabled(false), calibrating(false)
 {
 
 }
@@ -52,8 +52,8 @@ void DataFactory::Init(int _nchannels, int _npts, Hz _rbw, Hzvec centers)
     amplitudes.set_size(npts*length, nchannels);
     phases.set_size(npts*length, nchannels);
     bearings.set_size(npts*length);    
-//    corrCurve.set_size(session_ptr->algorithm->ThetaCount(), npts*length);
-//    corrCurve.fill(0.0);
+    corrCurve.set_size(72, npts*length);
+    corrCurve.fill(0.0);
 
     freqs_center = centers;
     bands_status.set_size(length); bands_status.fill(0);
@@ -179,8 +179,13 @@ bool DataFactory::Push(const IntermediatePacket &frame)
 
             if (DFEnabled) {
                 // calculate bearings by calling CI algorithm functions
-                unsigned int freq = freqs_center(ind)-bw/2+i*rbw;
-                bearings(offset+i) = session_ptr->algorithm->GetDOA(freq, phases_in.memptr(), NULL, corrCurve.colptr(offset+i));
+                double freq = freqs_center(ind)-bw/2+i*rbw;
+                float bearing, energy;
+
+                ciStatus sta = session_ptr->algorithm->GetDOA(bearing, energy, freq, phases_in.memptr(), NULL, corrCurve.colptr(offset+i));
+                if (sta == ciNoError) {
+                    bearings(offset+i) = bearing;
+                }
             }
         }
 

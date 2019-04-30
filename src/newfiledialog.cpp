@@ -10,7 +10,7 @@ NewFileDialog::NewFileDialog(QWidget *parent) : QDialog(parent)
     DockPanel *panel = new DockPanel("", this);
     page = new DockPage(tr("New File Generation"));
 
-//    algorithm = getInstance();
+    algorithm = getInstance();
 
     array_type = new ComboEntry(tr("Array Type"));
     QStringList type_str;
@@ -18,7 +18,7 @@ NewFileDialog::NewFileDialog(QWidget *parent) : QDialog(parent)
     array_type->setComboText(type_str);
     array_type->setComboIndex(0);
 
-    ants_count = new NumericEntry(tr("Ants Count"), 7, tr(""));
+    ants_count = new NumericEntry(tr("Ants Count"), 5, tr(""));
     array_dia_0 = new NumericEntry(tr("Array Dia(1)"), 3.0, tr(""));
     array_dia_1 = new NumericEntry(tr("Array Dia(2)"), 0.8, tr(""));
     array_dia_2 = new NumericEntry(tr("Array Dia(3)"), 0.8, tr(""));
@@ -199,7 +199,7 @@ void NewFileDialog::setupNewTable(QEventLoop *el)
         qint64 t0 = QDateTime::currentSecsSinceEpoch();
         header.time_created = t0;
         header.time_modified = t0;
-        header.type = ArrayType_Circle;
+        header.type = ARRAY_CIRCLE;
         header.nAnts = ants_count->GetValue();
         header.theta_start = start_azim->GetValue();
         header.theta_step = step_azim->GetValue();
@@ -208,18 +208,18 @@ void NewFileDialog::setupNewTable(QEventLoop *el)
         header.radius[0] = array_dia_0->GetValue()/2;
         header.radius[1] = array_dia_1->GetValue()/2;
         header.radius[2] = array_dia_2->GetValue()/2;
-        header.freq_start[0] = start_freq_0->GetFrequency();
-        header.freq_start[1] = start_freq_1->GetFrequency();
-        header.freq_start[2] = start_freq_2->GetFrequency();
-        header.freq_step[0] = step_freq_0->GetFrequency();
-        header.freq_step[1] = step_freq_1->GetFrequency();
-        header.freq_step[2] = step_freq_2->GetFrequency();
-        header.freq_stop[0] = stop_freq_0->GetFrequency();
-        header.freq_stop[1] = stop_freq_1->GetFrequency();
-        header.freq_stop[2] = stop_freq_2->GetFrequency();
+        header.freqs_start[0] = start_freq_0->GetFrequency();
+        header.freqs_start[1] = start_freq_1->GetFrequency();
+        header.freqs_start[2] = start_freq_2->GetFrequency();
+        header.freqs_step[0] = step_freq_0->GetFrequency();
+        header.freqs_step[1] = step_freq_1->GetFrequency();
+        header.freqs_step[2] = step_freq_2->GetFrequency();
+        header.freqs_stop[0] = stop_freq_0->GetFrequency();
+        header.freqs_stop[1] = stop_freq_1->GetFrequency();
+        header.freqs_stop[2] = stop_freq_2->GetFrequency();
 
         algorithm->ConfigCircularArray(header.nAnts, header.nLayers, header.radius,
-                                       header.freq_start, header.freq_step, header.freq_stop,
+                                       header.freqs_start, header.freqs_step, header.freqs_stop,
                                        header.theta_start, header.theta_step, header.theta_stop);
 
         file_handle.write((char*)&header, sizeof(circular_array_header));
@@ -230,8 +230,8 @@ void NewFileDialog::setupNewTable(QEventLoop *el)
 
         for (int n = 0; n < header.nLayers; n++)
         {
-            Hzvec freqs_layer = regspace<Hzvec>(header.freq_start[n],header.freq_step[n],header.freq_stop[n]);
-            header.freq_stop[n] = freqs_layer(freqs_layer.size()-1);
+            Hzvec freqs_layer = regspace<Hzvec>(header.freqs_start[n],header.freqs_step[n],header.freqs_stop[n]);
+            header.freqs_stop[n] = freqs_layer(freqs_layer.size()-1);
             freqs = join_cols(freqs, freqs_layer);
         }
 

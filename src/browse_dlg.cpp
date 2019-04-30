@@ -63,12 +63,12 @@ void FileBrowseDlg::browse()
     file_handle.open(QIODevice::ReadOnly);
     file_handle.seek(20);
 
-    ArrayType type;
-    file_handle.read((char *)&type, sizeof(ArrayType));
+    ARRAY_TYPE type;
+    file_handle.read((char *)&type, sizeof(ARRAY_TYPE));
 
     textEdit->clear();
 
-    if (type == ArrayType_Circle)
+    if (type == ARRAY_CIRCLE)
     {
         circular_array_header header;
 
@@ -79,7 +79,7 @@ void FileBrowseDlg::browse()
 
         for (int n = 0; n < header.nLayers; n++)
         {
-            Hzvec freqs_layer = regspace<Hzvec>(header.freq_start[n],header.freq_step[n],header.freq_stop[n]);
+            Hzvec freqs_layer = regspace<Hzvec>(header.freqs_start[n],header.freqs_step[n],header.freqs_stop[n]);
             freqs = join_cols(freqs, freqs_layer);
         }
 
@@ -103,7 +103,7 @@ void FileBrowseDlg::browse()
         {
             textEdit->appendPlainText(QString(tr("Layer %1, radius = %2")).arg(n+1).arg(header.radius[n]));
             textEdit->appendPlainText(QString(tr("Freq_Start: %1 Hz; Freq_Step: %2 Hz; Freq_Stop: %3 Hz"))
-                                      .arg(header.freq_start[n]).arg(header.freq_step[n]).arg(header.freq_stop[n]));
+                                      .arg(header.freqs_start[n]).arg(header.freqs_step[n]).arg(header.freqs_stop[n]));
         }
     }
 

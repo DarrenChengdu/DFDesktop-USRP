@@ -17,16 +17,16 @@ struct circular_array_header {
     unsigned short version;
     qint64 time_created;
     qint64 time_modified;
-    ArrayType type;
+    ARRAY_TYPE type;
     short nAnts;
     float theta_start;
     float theta_step;
     float theta_stop;
     short nLayers;
     float radius[MAX_LAYERS];
-    Hz freq_start[MAX_LAYERS];
-    Hz freq_step[MAX_LAYERS];
-    Hz freq_stop[MAX_LAYERS];
+    Hz freqs_start[MAX_LAYERS];
+    Hz freqs_step[MAX_LAYERS];
+    Hz freqs_stop[MAX_LAYERS];
 };
 
 class QEventLoop;

@@ -23,7 +23,7 @@ Session::Session(QObject *parent) : QObject(parent)
 //        MYOUT_W << "Presets of DFServer parse error in file " << fileName;
 //    }
 
-//    algorithm = getInstance();
+    algorithm = getInstance();
     dataSource = new DataSource;
     tableSource = new TableSource(NUM_ANTENNAS, this);
 

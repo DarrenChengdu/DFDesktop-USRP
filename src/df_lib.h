@@ -106,6 +106,7 @@ namespace df_lib {
 		return (f - start) / (stop - start);
 	}
 
+	// ×éºÏÊı
 	inline int factorial(int x)
 	{
 		int t;

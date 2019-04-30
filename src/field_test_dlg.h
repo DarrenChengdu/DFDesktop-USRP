@@ -51,7 +51,7 @@ private:
     Session *session_ptr;
     CheckBoxEntry *single;
     FrequencyEntry *center;
-    NumericEntry *offset;
+    FrequencyEntry *observation;
     FrequencyEntry *start;
     FrequencyEntry *step;
     FrequencyEntry *stop;

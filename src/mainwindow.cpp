@@ -31,8 +31,8 @@ MainWindow::MainWindow(QWidget *parent)
     collecting_dlg = new CollectingDlg(session);
     collecting_dlg->hide();
 
-    connect(importing_dlg, &SamplesImportingDialog::samplesFileLocation,
-            collecting_dlg, &CollectingDlg::samplesFileLocationReceived);
+//    connect(importing_dlg, &SamplesImportingDialog::samplesFileLocation,
+//            collecting_dlg, &CollectingDlg::samplesFileLocationReceived);
 
     field_dlg = new FieldTestDlg(session);
     field_dlg->hide();

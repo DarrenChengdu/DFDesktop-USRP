@@ -7,12 +7,12 @@ const Hzvec centers_ref_bw10M = regspace<Hzvec>(35000000,10000000,3010000000);
 const Hzvec centers_ref_bw5M = regspace<Hzvec>(32500000,5000000,3010000000);
 const Hzvec centers_ref_bw2p5M = regspace<Hzvec>(31250000, 2500000, 3010000000);
 
-DFSettings::DFSettings() : DFEnabled(false), bw_index(Bandwidths_20MHz), rbw_index(RBWIndex_25kHz)
+DFSettings::DFSettings()
 {
     wmode = WorkMode_FFM;
     rmode = COMMON;
 
-    center = 500000000;
+    center = 500000000;    
     user_start = 30000000;
     user_stop = 3000000000;
 
@@ -20,13 +20,9 @@ DFSettings::DFSettings() : DFEnabled(false), bw_index(Bandwidths_20MHz), rbw_ind
     centers.set_size(1);
     centers(0) = center;
 
-    // modify rbw and bw within it
-//    setRBWGrade(RBWIndex_3p125kHz);
-//    setRBWGrade(RBWIndex_6p25kHz);
-//    setRBWGrade(RBWIndex_12p5kHz);
+    freq_observ = center;
     setRBWGrade(RBWIndex_25kHz);
     setBandwidth(Bandwidths_20MHz);
-    setObservation(center);
 
     atten_mode = RFAttenMode_Manual;
     gain = 40;
@@ -41,6 +37,7 @@ DFSettings::DFSettings() : DFEnabled(false), bw_index(Bandwidths_20MHz), rbw_ind
     recv_loop = Loop_Inner;
     calibrating_auto = false;
     ant_switch_auto = true;
+    DFEnabled = false;
 }
 
 DFSettings& DFSettings::operator=(const DFSettings &other)
@@ -144,6 +141,8 @@ void DFSettings::generateFrequencyList()
             count++;
         }
     }
+
+    setObservation(freq_observ);
 }
 
 void DFSettings::setCenter(Frequency _center){
@@ -159,6 +158,7 @@ void DFSettings::setCenter(Frequency _center){
         span = stop - start;
     }
 
+    generateFrequencyList();
     updated(this);
 }
 
@@ -168,7 +168,6 @@ void DFSettings::setRBWGrade(int _rbw)
     rbw = native_dsp_lut[GetDSPLUTIndex(bw_index,rbw_index)].rbw;
 
     generateFrequencyList();
-    setObservation(freq_observ);
     updated(this);
 }
 
@@ -185,7 +184,6 @@ void DFSettings::setBandwidth(int _bw)
     bw = native_dsp_lut[GetDSPLUTIndex(bw_index,rbw_index)].bw;
 
     generateFrequencyList();
-    setObservation(freq_observ);
     updated(this);
 }
 

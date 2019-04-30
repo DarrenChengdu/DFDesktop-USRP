@@ -26,7 +26,7 @@ using namespace std;
 #include "armadillo/armadillo"
 using namespace arma;
 
-typedef unsigned int Hz;
+typedef double Hz;
 typedef Col<Hz> Hzvec;
 typedef Mat<Hz> Hzmat;
 #define DF_MIN_FREQ            30.0e6

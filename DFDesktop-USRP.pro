@@ -56,7 +56,8 @@ SOURCES += main.cpp\
     src/data_collecting_dlg.cpp \
     src/field_test_dlg.cpp \
     src/browse_dlg.cpp \
-    src/usrp_x310_2ch.cpp
+    src/usrp_x310_2ch.cpp \
+    src/algorithmci.cpp
 
 HEADERS  += src/mainwindow.h \
     src/globals.h \
@@ -96,7 +97,10 @@ HEADERS  += src/mainwindow.h \
     src/field_test_dlg.h \
     src/browse_dlg.h \
     include/libci.h \
-    src/usrp_x310_2ch.h
+    src/usrp_x310_2ch.h \
+    src/algorithmci.h \
+    src/libci.h \
+    include/armadillo/armadillo_bits/config.hpp
 
 INCLUDEPATH += $$PWD/src
 
@@ -109,4 +113,4 @@ RESOURCES     = application.qrc
 TRANSLATIONS += desktop_cn.ts
 
 
-unix:!macx: LIBS += -lboost_program_options -luhd -lboost_system
+unix:!macx: LIBS += -lboost_program_options -luhd -lboost_system -lblas -llapack

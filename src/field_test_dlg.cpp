@@ -27,14 +27,11 @@ FieldTestDlg::FieldTestDlg(Session *sPtr, QWidget *parent) : session_ptr(sPtr), 
     connect(center, &FrequencyEntry::freqViewChanged,
             settings, &DFSettings::setCenter);
 
-    offset = new NumericEntry(tr("Offset"), 0, tr("pts"));
-    connect(offset, &NumericEntry::valueChanged,
-            this, [=](double v) {
-        int index = round(v);
-//        settings->setFreqObervIndex(index);
-    });
+    observation = new FrequencyEntry(tr("Observ."), center->GetFrequency());
+    connect(observation, &FrequencyEntry::freqViewChanged,
+            settings, &DFSettings::setObservation);
 
-    start = new FrequencyEntry(tr("Freq. Start"), 100000000);
+    start = new FrequencyEntry(tr("Start"), 100000000);
     start->setEnabled(false);
 
     connect(start, &FrequencyEntry::freqViewChanged,
@@ -54,7 +51,7 @@ FieldTestDlg::FieldTestDlg(Session *sPtr, QWidget *parent) : session_ptr(sPtr), 
         }        
     });
 
-    stop = new FrequencyEntry(tr("Freq. Stop"), 500000000);
+    stop = new FrequencyEntry(tr("Stop"), 500000000);
     stop->setEnabled(false);
 
     connect(stop, &FrequencyEntry::freqViewChanged,
@@ -86,13 +83,13 @@ FieldTestDlg::FieldTestDlg(Session *sPtr, QWidget *parent) : session_ptr(sPtr), 
         }
     });
 
-    single = new CheckBoxEntry(tr("Single Freq."));
+    single = new CheckBoxEntry(tr("Single"));
     single->SetChecked(true);
 
     connect(single, &CheckBoxEntry::clicked,
             this, [=](bool checked) {
         center->setEnabled(checked);
-        offset->setEnabled(checked);
+        observation->setEnabled(checked);
         start->setEnabled(!checked);
         step->setEnabled(!checked);
         stop->setEnabled(!checked);
@@ -107,7 +104,7 @@ FieldTestDlg::FieldTestDlg(Session *sPtr, QWidget *parent) : session_ptr(sPtr), 
     connect(dual_btn, &DualButtonEntry::leftPressed, this, [=]()
     {
         if (single->IsChecked()) {
-            setDFEnabled(true);
+            setDFEnabled(true); // emit
         }
         else {
             StartStreaming();
@@ -125,7 +122,7 @@ FieldTestDlg::FieldTestDlg(Session *sPtr, QWidget *parent) : session_ptr(sPtr), 
     });
 
     page->AddWidget(center);
-    page->AddWidget(offset);
+    page->AddWidget(observation);
     page->AddWidget(single);
     page->AddWidget(start);
     page->AddWidget(step);
@@ -152,14 +149,10 @@ FieldTestDlg::FieldTestDlg(Session *sPtr, QWidget *parent) : session_ptr(sPtr), 
     corrChart->legend()->hide();
     corrChart->addSeries(corrSeries);
     corrChart->createDefaultAxes();
-    corrChart->setTitle("Curve of CI Algorithm");
+    corrChart->setTitle("Curve of CI Algorithm");    
 
     QChartView *chartView = new QChartView(corrChart);
     chartView->setRenderHint(QPainter::Antialiasing);
-
-    QStandardItemModel *simpleModel = new QStandardItemModel;
-    SimpleTable *sTable = new SimpleTable(simpleModel);
-    sTable->setColumnWidth(0, 25);
 
     connect(session_ptr->settings, &DFSettings::updated,
             this, &FieldTestDlg::updateDlg);
@@ -168,7 +161,7 @@ FieldTestDlg::FieldTestDlg(Session *sPtr, QWidget *parent) : session_ptr(sPtr), 
     QVBoxLayout *layout = new QVBoxLayout;
     w->setLayout(layout);
     layout->addWidget(chartView);
-    layout->addWidget(sTable);
+    layout->addWidget(textEdit);
     setCentralWidget(w);
 
     setWindowTitle(tr("Field Test"));
@@ -178,12 +171,14 @@ FieldTestDlg::FieldTestDlg(Session *sPtr, QWidget *parent) : session_ptr(sPtr), 
 void FieldTestDlg::createMenuBar()
 {
     QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
+    QToolBar *fileToolBar = addToolBar(tr("File"));
     const QIcon newIcon = QIcon::fromTheme("document-new", QIcon(":/images/new.png"));
     QAction *newAct = new QAction(newIcon, tr("&New"), this);
     newAct->setShortcuts(QKeySequence::New);
     newAct->setStatusTip(tr("Create a new file"));
     connect(newAct, &QAction::triggered, this, &FieldTestDlg::newFile);
     fileMenu->addAction(newAct);
+    fileToolBar->addAction(newAct);
 
     const QIcon openIcon = QIcon::fromTheme("document-open", QIcon(":/images/open.png"));
     QAction *openAct = new QAction(openIcon, tr("&Open..."), this);
@@ -191,6 +186,8 @@ void FieldTestDlg::createMenuBar()
     openAct->setStatusTip(tr("Open an existing file"));
     connect(openAct, &QAction::triggered, this, &FieldTestDlg::importFile);
     fileMenu->addAction(openAct);
+    fileToolBar->addAction(openAct);
+
 }
 
 void FieldTestDlg::newFile()
@@ -234,7 +231,7 @@ void FieldTestDlg::updateDlg(const DFSettings *s)
 {
     if (single->IsChecked()) {
         center->SetFrequency(s->Center());
-        offset->SetValue(s->ObservIndex());
+        observation->SetFrequency(s->Observation());
     }
 
     dual_btn->RightButton()->setEnabled(s->isDFEnabled());
@@ -245,7 +242,12 @@ void FieldTestDlg::onTableChanged(Hz f, int ind_t)
 {
     if (samplesLoaded) {
 
-        int ind_f = session_ptr->algorithm->FreqIndex(f);
+        size_t ind_f;
+        if (session_ptr->algorithm->GetFrequencyIndex(f, ind_f) != ciNoError)
+        {
+            MY_CRITICAL << "Error raise in algorithm->GetFrequencyIndex";
+            return;
+        }
 //        qDebug() << ind_f;
 
         const float *phases_sampl = session_ptr->algorithm->PhaseSamples();
@@ -300,13 +302,13 @@ void FieldTestDlg::samplesFileLocationReceived(QEventLoop *el, QString path)
     file_handle.open(QIODevice::ReadOnly);
     file_handle.seek(20);
 
-    ArrayType type;
-    file_handle.read((char *)&type, sizeof(ArrayType));
+    ARRAY_TYPE type;
+    file_handle.read((char *)&type, sizeof(ARRAY_TYPE));
 
     Hzvec freqs;
     fvec thetas;
 
-    if (type == ArrayType_Circle)
+    if (type == ARRAY_CIRCLE)
     {
         circular_array_header header;
 
@@ -315,8 +317,8 @@ void FieldTestDlg::samplesFileLocationReceived(QEventLoop *el, QString path)
 
         for (int n = 0; n < header.nLayers; n++)
         {
-            Hzvec freqs_layer = regspace<Hzvec>(header.freq_start[n],header.freq_step[n],header.freq_stop[n]);
-            header.freq_stop[n] = freqs_layer(freqs_layer.size()-1);
+            Hzvec freqs_layer = regspace<Hzvec>(header.freqs_start[n],header.freqs_step[n],header.freqs_stop[n]);
+            header.freqs_stop[n] = freqs_layer(freqs_layer.size()-1);
             freqs = join_cols(freqs, freqs_layer);
         }
 
@@ -349,7 +351,7 @@ void FieldTestDlg::samplesFileLocationReceived(QEventLoop *el, QString path)
 
 //        samples.save("samples.txt", arma_ascii);
         session_ptr->algorithm->ConfigCircularArray(header.nAnts, header.nLayers, header.radius,
-                                                    header.freq_start, header.freq_step, header.freq_stop,
+                                                    header.freqs_start, header.freqs_step, header.freqs_stop,
                                                     header.theta_start, header.theta_step, header.theta_stop);
 
         int nAnts = header.nAnts;
@@ -371,7 +373,7 @@ void FieldTestDlg::samplesFileLocationReceived(QEventLoop *el, QString path)
         }
 
 //        PhaTabl.save("PhaTabl.txt", raw_ascii);
-        session_ptr->algorithm->ConfigLookupTable(-1.0, PhaTabl.memptr(), AmpTabl.memptr());
+        session_ptr->algorithm->ConfigLookupTable(PhaTabl.memptr(), AmpTabl.memptr());
     }
 
     file_handle.close();
@@ -385,6 +387,9 @@ void FieldTestDlg::samplesFileLocationReceived(QEventLoop *el, QString path)
     }
 
     emit setSamplingAzim(thetas_str);
+
+    // set axis-x of correlation graph
+    corrChart->axisX()->setRange(thetas.min(), thetas.max());
 
     freqs_full = freqs;
     freqs_full.save("freqs_full.txt", raw_ascii);
@@ -476,7 +481,10 @@ void FieldTestDlg::testThread()
 }
 
 void FieldTestDlg::onDOAResultsReceived(float bearing, QVector<QPointF> curve)
-{
+{    
+    // update bearing
     setWindowTitle(QString(tr("Bearing: %1")).arg(bearing));
+
+    // update curve
     corrSeries->replace(curve);
 }

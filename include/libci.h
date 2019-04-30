@@ -13,15 +13,15 @@
 
 typedef unsigned int Hz;
 
-enum ArrayType {
-    ArrayType_Circle = 0,
+enum ARRAY_TYPE {
+    ARRAY_CIRCLE = 0,
     ArrayType_Line = 1
 };
 
 class IAlgorithmCI
 {
 public:
-    virtual bool Config(ArrayType _type, int Na, int _nlayers,
+    virtual bool Config(ARRAY_TYPE _type, int Na, int _nlayers,
                         const float *_x, const float *_y,
                         const Hz *_freq_start, const Hz *_freq_step, const Hz *_freq_stop,
                         float _theta_start, float _theta_step, float _theta_stop) = 0;

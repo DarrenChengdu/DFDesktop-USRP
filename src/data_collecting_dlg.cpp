@@ -161,13 +161,13 @@ void CollectingDlg::samplesFileLocationReceived(QString path)
     file_handle.open(QIODevice::ReadOnly);
     file_handle.seek(20);
 
-    ArrayType type;
-    file_handle.read((char *)&type, sizeof(ArrayType));
+    ARRAY_TYPE type;
+    file_handle.read((char *)&type, sizeof(ARRAY_TYPE));
 
     Hzvec freqs;
     fvec thetas;
 
-    if (type == ArrayType_Circle)
+    if (type == ARRAY_CIRCLE)
     {
         circular_array_header header;
 
@@ -176,8 +176,8 @@ void CollectingDlg::samplesFileLocationReceived(QString path)
 
         for (int n = 0; n < header.nLayers; n++)
         {
-            Hzvec freqs_layer = regspace<Hzvec>(header.freq_start[n],header.freq_step[n],header.freq_stop[n]);
-            header.freq_stop[n] = freqs_layer(freqs_layer.size()-1);
+            Hzvec freqs_layer = regspace<Hzvec>(header.freqs_start[n],header.freqs_step[n],header.freqs_stop[n]);
+            header.freqs_stop[n] = freqs_layer(freqs_layer.size()-1);
             freqs = join_cols(freqs, freqs_layer);
         }
 
