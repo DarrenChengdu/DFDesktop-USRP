@@ -63,6 +63,10 @@ private:
     void setupToolBar();
     void setupMenuBar();
     void setupChartsAndTable();
+    void connectDeviceUponOpen();
+    void OpenDevice();
+    void OpenDeviceInThread(QEventLoop *el, Device *device);
+    void deviceConnected(bool success);
 
 private slots:
     void onSceneChanged();

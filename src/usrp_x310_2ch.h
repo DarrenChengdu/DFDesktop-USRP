@@ -17,6 +17,7 @@ public:
     USRP_X310_2CH();
 
     virtual bool OpenDevice();
+    virtual bool IsOpen() const;
     virtual bool CloseDevice();
     virtual void StartStreaming();
     virtual void StopStreaming();

@@ -86,6 +86,11 @@ bool USRP_X310_2CH::Reconfigure(DFSettings *s)
     return true;
 }
 
+bool USRP_X310_2CH::IsOpen() const
+{
+    return isOpen;
+}
+
 bool USRP_X310_2CH::OpenDevice()
 {
     //create a usrp device

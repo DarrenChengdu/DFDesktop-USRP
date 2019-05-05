@@ -21,6 +21,9 @@ DFSettings::DFSettings()
     centers(0) = center;
 
     freq_observ = center;
+
+    bw_index = Bandwidths_20MHz;
+    rbw_index = RBWIndex_25kHz;
     setRBWGrade(RBWIndex_25kHz);
     setBandwidth(Bandwidths_20MHz);
 

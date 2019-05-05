@@ -3,6 +3,7 @@
 #include <QMenuBar>
 #include <glchartview.h>
 #include "simpletable.h"
+#include "widgets/progress_dialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), updatedCount(0), num_plots(NUM_ANTENNAS), num_rows(3)
@@ -52,9 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     setupToolBar();
     setupMenuBar();
-    setupChartsAndTable();
-
-    DFSweep->StartStreaming();
+    setupChartsAndTable();    
 
     QLabel *fpsLabel = new QLabel;
     session->dataSource->startUpdates(seriesList, markerList, markerTextList, fpsLabel);
@@ -63,6 +62,8 @@ MainWindow::MainWindow(QWidget *parent)
     centralWidget->setLayout(layout);
     setCentralWidget(centralWidget);
     statusBar()->addWidget(fpsLabel);
+
+    connectDeviceUponOpen();
 }
 
 MainWindow::~MainWindow()
@@ -117,6 +118,11 @@ void MainWindow::setupMenuBar()
     fieldAct->setStatusTip(tr("Field Test"));
     connect(fieldAct, &QAction::triggered, this, [=]()
     {
+        QRect desk=QMainWindow::rect();
+        int wd=desk.width();
+        int ht=desk.height();
+        field_dlg->move((wd-field_dlg->width())/2,(ht-field_dlg->height())/2);
+
         field_dlg->show();
         field_dlg->resize(800, 600);
     });
@@ -233,5 +239,80 @@ void MainWindow::newFile()
 void MainWindow::importSamplesFile()
 {
     importing_dlg->show();
+}
+
+void MainWindow::connectDeviceUponOpen()
+{
+     OpenDevice();
+}
+
+void MainWindow::OpenDevice()
+{
+    QString openLabel = "Connecting Device\nEstimated 6 seconds\n";
+
+    SHProgressDialog pd(openLabel, this);
+    pd.show();
+
+    QDesktopWidget *desk=QApplication::desktop();
+    int wd=desk->width();
+    int ht=desk->height();
+    pd.move((wd-pd.width())/2,(ht-pd.height())/2);
+
+    Device *device = new USRP_X310_2CH();
+    session->device = device;
+
+    QEventLoop el;
+    std::thread t = std::thread(&MainWindow::OpenDeviceInThread,
+                                this,
+                                &el,
+                                device);
+    el.exec();
+    if(t.joinable()) {
+        t.join();
+    }
+
+    deviceConnected(session->device->IsOpen());
+
+    return;
+}
+void MainWindow::OpenDeviceInThread(QEventLoop *el, Device *device)
+{
+    device->OpenDevice();
+
+    while(!el->isRunning()) {
+        MSleep(1000);
+    }
+    el->exit();
+}
+
+void MainWindow::deviceConnected(bool success)
+{
+    QString device_string;
+
+    if(success) {
+//        device_string = "Serial - " + session->device->SerialString() +
+//                "    Firmware " + session->device->FirmwareString();
+
+//        status_bar->SetDeviceType(session->device->GetDeviceString());
+//        status_bar->UpdateDeviceInfo(device_string);
+
+//        device_traits::set_device_type(session->device->GetDeviceType());
+//        session->LoadDefaults();
+//        connect(session->device, SIGNAL(connectionIssues()),
+//                this, SLOT(forceDisconnectDevice()));
+
+//        sweep_panel->DeviceConnected(session->device->GetDeviceType());
+
+//        ChangeMode(MODE_SWEEPING);
+//        centralStack->CurrentWidget()->changeMode(BB_SWEEPING);
+        session->device->Reconfigure(session->settings);
+        DFSweep->StartStreaming();
+    } else {
+        QMessageBox::information(this, tr("Connection Status"),
+                                 tr("Connection Issues!"));
+
+        QLabel *noDeviceLabel = new QLabel(tr("No Device Connected"));
+        statusBar()->addWidget(noDeviceLabel);
+    }
 }
 

@@ -4,11 +4,11 @@
 
 Session::Session(QObject *parent) : QObject(parent)
 {
-    device = new USRP_X310_2CH();
-    device->OpenDevice();
+//    device = new USRP_X310_2CH();
+//    device->OpenDevice();
 
     settings = new DFSettings();
-    device->Reconfigure(settings);
+//    device->Reconfigure(settings);
 
     QString fileName = QString("./presets.xml");
 
